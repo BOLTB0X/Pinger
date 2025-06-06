@@ -3,6 +3,7 @@ import 'dart:typed_data';
 import 'dart:convert';
 import 'package:flutter/rendering.dart'; // RenderRepaintBoundary
 import 'dart:ui' as ui;
+import '../services/generate_image.dart';
 
 class DrawingScreen extends StatefulWidget {
   const DrawingScreen({Key? key}) : super(key: key);
@@ -14,6 +15,8 @@ class DrawingScreen extends StatefulWidget {
 class _DrawingScreenState extends State<DrawingScreen> {
   List<Offset?> points = [];
   final GlobalKey _canvasKey = GlobalKey();
+
+  Uint8List? generatedImage;
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +30,6 @@ class _DrawingScreenState extends State<DrawingScreen> {
           );
 
           //print('touch : $localPosition, point: ${points.length}');
-
           setState(() {
             points.add(localPosition);
           });
@@ -90,13 +92,70 @@ class _DrawingScreenState extends State<DrawingScreen> {
 
       // base64 변환
       final base64String = base64Encode(pngBytes);
-      print('Base64 확인: ${base64String.substring(0, 100)}...');
-      print('Base64 length: ${base64String.length}');
+      // print('Base64 확인: ${base64String.substring(0, 100)}...');
+      // print('Base64 length: ${base64String.length}');
+      final resultImg = await generateImage(base64String);
+
+      if (resultImg != null) {
+        _showGeneratedImage(resultImg);
+      } else {
+        print("AI 이미지 생성 실패");
+        _showErrorDialog(); // 선택사항
+      }
     } catch (e) {
       print('Error: $e');
     }
   } // saveAsImage
-}
+
+  void _showGeneratedImage(Uint8List imageBytes) {
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
+      ),
+      builder: (context) => Padding(
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            const Text(
+              "AI 생성 이미지",
+              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+            ),
+            const SizedBox(height: 16),
+            ClipRRect(
+              borderRadius: BorderRadius.circular(12),
+              child: Image.memory(imageBytes),
+            ),
+            const SizedBox(height: 24),
+            ElevatedButton.icon(
+              onPressed: () => Navigator.pop(context),
+              icon: const Icon(Icons.close),
+              label: const Text("닫기"),
+            ),
+          ],
+        ),
+      ),
+    );
+  } // _showGeneratedImage
+
+  void _showErrorDialog() {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text("오류"),
+        content: const Text("AI 이미지 생성에 실패했습니다."),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: const Text("확인"),
+          ),
+        ],
+      ),
+    );
+  } // _showErrorDialog
+} // _DrawingScreenState
 
 class SketchPainter extends CustomPainter {
   final List<Offset?> points;
@@ -109,7 +168,6 @@ class SketchPainter extends CustomPainter {
       ..color = Colors.black
       ..strokeWidth = 4.0
       ..strokeCap = StrokeCap.round;
-
     //print('포인트 확인 ${points.whereType<Offset>().length} points');
 
     for (int i = 0; i < points.length - 1; i++) {
