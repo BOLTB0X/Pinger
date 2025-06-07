@@ -1,1 +1,19 @@
 # Pinger
+
+![초수위화](https://3.gall-gif.com/tdgall/files/attach/images/82/310/776/057/a1fdf49a195cd1851c2472dedf2f0a6c.gif)
+
+## 참고
+
+- [Hugging](https://huggingface.co/)
+
+- [블로그 참조 - Hugging Face 회원가입, 토큰 발급, APIKEY 발급 방법, 개발 환경 설정](https://hunseop2772.tistory.com/372)
+
+- [flutter dev - RenderRepaintBoundary](https://api.flutter.dev/flutter/rendering/RenderRepaintBoundary-class.html)
+
+- [flutter dev - toImage](https://api.flutter.dev/flutter/rendering/RenderRepaintBoundary/toImage.html)
+
+- [블로그 참고 - .env 파일 적용](https://velog.io/@marksen/Flutter-.env-%ED%8C%8C%EC%9D%BC-%EC%A0%81%EC%9A%A9)
+
+- [블로그 참조 - tkayyoo(위젯으로 이미지 찍어내기)](https://tkayyoo.tistory.com/85)
+
+- [블로그 참조 - Studying ITs(리눅스에서 파이썬 개발환경 구축)](https://authentic-information.tistory.com/35)
