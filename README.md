@@ -12,6 +12,10 @@
 
 - [flutter dev - toImage](https://api.flutter.dev/flutter/rendering/RenderRepaintBoundary/toImage.html)
 
+- [블로그 참고 - 뇌님 참고(HandshakeException: Handshake error in client (OS Error: CERTIFICATE_VERIFY_FAILED))](https://brain-nim.tistory.com/138)
+
+- [Stackoverflow - Flutter HTTPS Handshake error in client (OS Error: CERTIFICATE_VERIFY_FAILED: ok(handshake.cc:363))](https://stackoverflow.com/questions/54928080/flutter-https-handshake-error-in-client-os-error-certificate-verify-failed-ok)
+
 - [블로그 참고 - .env 파일 적용](https://velog.io/@marksen/Flutter-.env-%ED%8C%8C%EC%9D%BC-%EC%A0%81%EC%9A%A9)
 
 - [블로그 참조 - tkayyoo(위젯으로 이미지 찍어내기)](https://tkayyoo.tistory.com/85)
