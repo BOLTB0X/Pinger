@@ -17,6 +17,7 @@ class _DrawingScreenState extends State<DrawingScreen> {
   final GlobalKey _canvasKey = GlobalKey();
 
   Uint8List? generatedImage;
+  bool _isLoading = false;
 
   @override
   Widget build(BuildContext context) {
@@ -79,6 +80,9 @@ class _DrawingScreenState extends State<DrawingScreen> {
   }
 
   Future<void> saveAsImage() async {
+    setState(() => _isLoading = true);
+    _showLoadingDialog();
+
     try {
       RenderRepaintBoundary boundary =
           _canvasKey.currentContext!.findRenderObject()
@@ -90,22 +94,53 @@ class _DrawingScreenState extends State<DrawingScreen> {
       );
       final pngBytes = byteData!.buffer.asUint8List();
 
-      // base64 변환
       final base64String = base64Encode(pngBytes);
-      // print('Base64 확인: ${base64String.substring(0, 100)}...');
-      // print('Base64 length: ${base64String.length}');
       final resultImg = await generateImage(base64String);
+
+      Navigator.of(context).pop();
+      setState(() => _isLoading = false);
 
       if (resultImg != null) {
         _showGeneratedImage(resultImg);
       } else {
-        print("AI 이미지 생성 실패");
-        _showErrorDialog(); // 선택사항
+        _showErrorDialog();
       }
     } catch (e) {
       print('Error: $e');
+      Navigator.of(context).pop(); // 로딩 다이얼로그 닫기
+      setState(() => _isLoading = false);
+      _showErrorDialog();
     }
-  } // saveAsImage
+  }
+
+  // Future<void> saveAsImage() async {
+  //   try {
+  //     RenderRepaintBoundary boundary =
+  //         _canvasKey.currentContext!.findRenderObject()
+  //             as RenderRepaintBoundary;
+
+  //     var image = await boundary.toImage(pixelRatio: 3.0);
+  //     ByteData? byteData = await image.toByteData(
+  //       format: ui.ImageByteFormat.png,
+  //     );
+  //     final pngBytes = byteData!.buffer.asUint8List();
+
+  //     // base64 변환
+  //     final base64String = base64Encode(pngBytes);
+  //     // print('Base64 확인: ${base64String.substring(0, 100)}...');
+  //     // print('Base64 length: ${base64String.length}');
+  //     final resultImg = await generateImage(base64String);
+
+  //     if (resultImg != null) {
+  //       _showGeneratedImage(resultImg);
+  //     } else {
+  //       print("AI 이미지 생성 실패");
+  //       _showErrorDialog(); // 선택사항
+  //     }
+  //   } catch (e) {
+  //     print('Error: $e');
+  //   }
+  // } // saveAsImage
 
   void _showGeneratedImage(Uint8List imageBytes) {
     showModalBottomSheet(
@@ -155,6 +190,22 @@ class _DrawingScreenState extends State<DrawingScreen> {
       ),
     );
   } // _showErrorDialog
+
+  void _showLoadingDialog() {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (context) => const AlertDialog(
+        content: Row(
+          children: [
+            CircularProgressIndicator(),
+            SizedBox(width: 16),
+            Text("이미지 생성 중..."),
+          ],
+        ),
+      ),
+    );
+  } // _showLoadingDialog
 } // _DrawingScreenState
 
 class SketchPainter extends CustomPainter {
