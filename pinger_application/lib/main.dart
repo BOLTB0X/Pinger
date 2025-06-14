@@ -1,14 +1,33 @@
-import 'package:flutter/material.dart';
-import 'screens/drawing_screen.dart';
-import 'services/my_http.dart';
 import 'dart:io';
+
+import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:provider/provider.dart';
+
+import 'core/network/httpoverrides_service.dart';
+import 'data/repositories/image_repository_impl.dart';
+import 'data/datasources/remote_api_service.dart';
+import 'domain/usecases/generate_image_usecase.dart';
+import 'presentation/view/drawing_view.dart';
+import 'presentation/viewmodel/drawing_viewmodel.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await dotenv.load(fileName: ".env");
-  HttpOverrides.global = MyHttpOverrides();
-  runApp(const MyApp());
+  HttpOverrides.global = HttpOverridesService();
+
+  final remoteApiService = RemoteApiService();
+  final imageRepository = ImageRepositoryImpl(remoteApiService);
+  final generateImageUseCase = GenerateImageUseCase(
+    repository: imageRepository,
+  );
+
+  runApp(
+    ChangeNotifierProvider(
+      create: (_) => DrawingViewModel(generateImageUseCase),
+      child: const MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -19,7 +38,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Pinger Sketch',
       theme: ThemeData(primarySwatch: Colors.blue),
-      home: const DrawingScreen(),
+      home: const DrawingView(),
     );
   }
 }
