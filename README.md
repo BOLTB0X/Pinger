@@ -2,6 +2,8 @@
 
 ![초수위화](https://3.gall-gif.com/tdgall/files/attach/images/82/310/776/057/a1fdf49a195cd1851c2472dedf2f0a6c.gif)
 
+![temp](https://github.com/BOLTB0X/Pinger/blob/main/Img/%EB%A1%9C%EB%94%A9%EC%A4%91%20%EC%83%81%ED%83%9C%20%EC%B6%94%EA%B0%80.gif?raw=true)
+
 ## 참고
 
 - [Hugging](https://huggingface.co/)
