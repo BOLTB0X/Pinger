@@ -2,7 +2,8 @@ import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../viewmodel/drawing_viewmodel.dart';
-import '../../core/utils/sketch_painter.dart';
+import '../viewmodel/drawing_canvas_viewmodel.dart';
+import '../widgets/drawing_canvas.dart';
 
 class DrawingView extends StatefulWidget {
   const DrawingView({super.key});
@@ -13,7 +14,6 @@ class DrawingView extends StatefulWidget {
 
 class _DrawingViewState extends State<DrawingView> {
   final GlobalKey _canvasKey = GlobalKey();
-  final List<Offset?> _points = [];
 
   @override
   Widget build(BuildContext context) {
@@ -25,38 +25,14 @@ class _DrawingViewState extends State<DrawingView> {
 
     return Scaffold(
       appBar: AppBar(title: const Text('Pinger Sketch')),
-      body: _buildCanvas(),
+      body: ChangeNotifierProvider(
+        create: (_) => DrawingCanvasViewmodel(),
+        child: DrawingCanvas(repaintKey: _canvasKey),
+      ),
       floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
       floatingActionButton: _buildActionButtons(viewModel),
     );
   }
-
-  Widget _buildCanvas() {
-    return RepaintBoundary(
-      key: _canvasKey,
-      child: GestureDetector(
-        onPanUpdate: (details) {
-          RenderBox renderBox = context.findRenderObject() as RenderBox;
-          Offset localPosition = renderBox.globalToLocal(
-            details.globalPosition,
-          );
-          setState(() {
-            _points.add(localPosition);
-          });
-        },
-        onPanEnd: (_) => setState(() {
-          _points.add(null);
-        }),
-        child: Container(
-          color: Colors.white, //
-          child: CustomPaint(
-            painter: SketchPainter(_points),
-            size: Size.infinite,
-          ),
-        ),
-      ),
-    );
-  } // _buildCanvas
 
   Widget _buildActionButtons(DrawingViewModel viewModel) {
     return Padding(
@@ -70,25 +46,14 @@ class _DrawingViewState extends State<DrawingView> {
             onPressed: () async {
               await viewModel.fetchGeneratedImage(_canvasKey, "/generate");
             },
-            child: const Icon(Icons.auto_fix_normal),
-          ),
-          const SizedBox(width: 12),
-          FloatingActionButton(
-            heroTag: 'complete',
-            tooltip: 'Complete',
-            onPressed: () async {
-              await viewModel.fetchGeneratedImage(_canvasKey, "/complete");
-            },
             child: const Icon(Icons.check),
           ),
           const SizedBox(width: 12),
           FloatingActionButton(
-            heroTag: 'clear',
-            tooltip: 'Clear',
-            onPressed: () {
-              setState(() => _points.clear());
-            },
-            child: const Icon(Icons.clear),
+            heroTag: 'save',
+            tooltip: 'save',
+            onPressed: () {},
+            child: const Icon(Icons.save),
           ),
         ],
       ),
@@ -117,6 +82,8 @@ class _DrawingViewState extends State<DrawingView> {
   } // _handleStatus
 
   void _showErrorDialog() {
+    final viewModel = context.read<DrawingViewModel>();
+
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
@@ -124,7 +91,10 @@ class _DrawingViewState extends State<DrawingView> {
         content: const Text("AI 이미지 생성에 실패했습니다."),
         actions: [
           TextButton(
-            onPressed: () => Navigator.pop(context),
+            onPressed: () {
+              viewModel.resetStatus();
+              Navigator.pop(context);
+            },
             child: const Text("확인"),
           ),
         ],
@@ -149,6 +119,8 @@ class _DrawingViewState extends State<DrawingView> {
   } // _showLoadingDialog
 
   void _showGeneratedImage(BuildContext context, Uint8List imageBytes) {
+    final viewModel = context.read<DrawingViewModel>();
+
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
@@ -171,7 +143,10 @@ class _DrawingViewState extends State<DrawingView> {
             ),
             const SizedBox(height: 24),
             ElevatedButton.icon(
-              onPressed: () => Navigator.pop(context),
+              onPressed: () {
+                viewModel.resetStatus();
+                Navigator.pop(context);
+              },
               icon: const Icon(Icons.close),
               label: const Text("닫기"),
             ),

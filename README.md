@@ -6,7 +6,15 @@
 
 ## 참고
 
-- [Hugging](https://huggingface.co/)
+- [Hugging face](https://huggingface.co/)
+
+    - [control_v11p_sd15_lineart](https://huggingface.co/lllyasviel/control_v11p_sd15_lineart)
+
+    - [Stable Diffusion v1-5 ](https://huggingface.co/lllyasviel/sd-controlnet-scribble)
+
+    - [ControlNet](https://huggingface.co/lllyasviel/ControlNet?source=post_page-----5f67979ea9a---------------------------------------)
+
+    - [Interrogator](https://huggingface.co/spaces/pharmapsychotic/CLIP-Interrogator)
 
 - [블로그 참조 - Hugging Face 회원가입, 토큰 발급, APIKEY 발급 방법, 개발 환경 설정](https://hunseop2772.tistory.com/372)
 
@@ -23,3 +31,11 @@
 - [블로그 참조 - tkayyoo(위젯으로 이미지 찍어내기)](https://tkayyoo.tistory.com/85)
 
 - [블로그 참조 - Studying ITs(리눅스에서 파이썬 개발환경 구축)](https://authentic-information.tistory.com/35)
+
+- [블로그 참조 - 고은별의 기술 공유 연구소(Flutter - 내가 만든 앱, 내 휴대폰으로 디버깅 하기)](https://luvris2.tistory.com/715#google_vignette)
+
+- [블로그 참조 - 까사파파(FloatingActionButton 여러개 사용시 에러및 오류 해결 하는 법)](https://casapapa.tistory.com/40)
+
+- [블로그 참조 - 영로그(클린 아키텍처 쉽게 이해하기)](https://heui-yong.github.io/flutter/post-flutter-clean-architecture/)
+
+- [Flutter pub - painter](https://pub.dev/packages/painter)

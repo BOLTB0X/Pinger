@@ -36,4 +36,9 @@ class DrawingViewModel extends ChangeNotifier {
 
     notifyListeners();
   } // fetchGeneratedImage
-}
+
+  void resetStatus() {
+    status = DrawingStatus.idle;
+    notifyListeners();
+  } // resetStatus
+} // DrawingViewModel

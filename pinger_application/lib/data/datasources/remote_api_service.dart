@@ -15,7 +15,8 @@ class RemoteApiService {
 
     if (response.statusCode == 200) {
       final decoded = jsonDecode(response.body);
-      final base64Result = decoded['result'];
+      final base64Result = decoded['image'];
+      if (base64Result == null) throw Exception("Response 'image' is null");
       return base64Decode(base64Result);
     } else {
       print('요청 실패: ${response.statusCode}, ${response.body}');
