@@ -8,8 +8,9 @@ import 'core/network/httpoverrides_service.dart';
 import 'data/repositories/image_repository_impl.dart';
 import 'data/datasources/remote_api_service.dart';
 import 'domain/usecases/generate_image_usecase.dart';
-import 'presentation/view/drawing_view.dart';
-import 'presentation/viewmodel/drawing_viewmodel.dart';
+import 'domain/draw/drawing_manager.dart';
+import 'presentation/view/canvas_view.dart';
+import 'presentation/viewmodel/canvas_viewmodel.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -23,12 +24,20 @@ void main() async {
   );
 
   runApp(
-    ChangeNotifierProvider(
-      create: (_) => DrawingViewModel(generateImageUseCase),
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => DrawingManager()),
+        ChangeNotifierProvider(
+          create: (context) => CanvasViewModel(
+            context.read<DrawingManager>(),
+            generateImageUseCase,
+          ),
+        ),
+      ],
       child: const MyApp(),
     ),
   );
-}
+} // main
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -38,7 +47,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Pinger Sketch',
       theme: ThemeData(primarySwatch: Colors.blue),
-      home: const DrawingView(),
+      home: const CanvasView(),
     );
-  }
-}
+  } // build
+} // MyApp

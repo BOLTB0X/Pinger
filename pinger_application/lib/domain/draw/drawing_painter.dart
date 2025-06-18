@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import '../../data/models/sketch.dart';
 
-class TouchPainter extends CustomPainter {
+class DrawingPainter extends CustomPainter {
   final List<Sketch> sketches;
   final Offset? currentPoint;
 
-  TouchPainter(this.sketches, {this.currentPoint});
+  DrawingPainter(this.sketches, {this.currentPoint});
+
+  // Methods
+  // ...
 
   @override
   void paint(Canvas canvas, Size size) {
@@ -24,8 +27,8 @@ class TouchPainter extends CustomPainter {
   } // paint
 
   @override
-  bool shouldRepaint(covariant TouchPainter oldDelegate) {
+  bool shouldRepaint(covariant DrawingPainter oldDelegate) {
     return oldDelegate.sketches != sketches ||
         oldDelegate.currentPoint != currentPoint;
   } // shouldRepaint
-}
+} // DrawingPainter
