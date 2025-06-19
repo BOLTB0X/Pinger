@@ -72,6 +72,7 @@ class CanvasViewModel extends ChangeNotifier {
     status = CanvasStatus.loading;
 
     notifyListeners();
+
     try {
       final base64 = await ImageUtils.extractAsBase64(key);
       final image = await generateImageUseCase(base64, api);

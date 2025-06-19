@@ -34,4 +34,4 @@ extension CanvasDialogBuildContext on BuildContext {
           GeneratedImageBottomSheet(imageBytes: imageBytes, onClose: onClose),
     );
   } // showGeneratedImageBottomSheet
-}
+} // CanvasDialogBuildContext

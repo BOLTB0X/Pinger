@@ -37,4 +37,4 @@ class GeneratedImageBottomSheet extends StatelessWidget {
       ),
     );
   } // build
-}
+} // GeneratedImageBottomSheet

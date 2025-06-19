@@ -2,7 +2,7 @@
 
 ![초수위화](https://3.gall-gif.com/tdgall/files/attach/images/82/310/776/057/a1fdf49a195cd1851c2472dedf2f0a6c.gif)
 
-![temp](https://github.com/BOLTB0X/Pinger/blob/main/Img/%EB%A1%9C%EB%94%A9%EC%A4%91%20%EC%83%81%ED%83%9C%20%EC%B6%94%EA%B0%80.gif?raw=true)
+![temp](https://github.com/BOLTB0X/Pinger/blob/main/Img/drawing-%EA%B8%B0%EB%8A%A5%ED%99%95%EC%9D%B8.gif?raw=true)
 
 ## 참고
 
@@ -39,3 +39,5 @@
 - [블로그 참조 - 영로그(클린 아키텍처 쉽게 이해하기)](https://heui-yong.github.io/flutter/post-flutter-clean-architecture/)
 
 - [Flutter pub - painter](https://pub.dev/packages/painter)
+
+- [블로그 참고 - 마느아의 전산 공부 블로그(AppBar 총정리(flutter))](https://learncom1234.tistory.com/17)
