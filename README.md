@@ -2,7 +2,38 @@
 
 ![초수위화](https://3.gall-gif.com/tdgall/files/attach/images/82/310/776/057/a1fdf49a195cd1851c2472dedf2f0a6c.gif)
 
-![temp](https://github.com/BOLTB0X/Pinger/blob/main/Img/drawing-%EA%B8%B0%EB%8A%A5%ED%99%95%EC%9D%B8.gif?raw=true)
+<p align="center">
+  <table style="width:100%; text-align:center; border-spacing:20px;">
+    <tr>
+      <td style="text-align:center; vertical-align:middle;">
+        <p align="center">
+        <img src="https://github.com/BOLTB0X/Pinger/blob/main/Img/%EC%8A%A4%EC%BC%80%EC%B9%98%20-%20%ED%85%8C%EC%8A%A4%ED%8A%B8.gif?raw=true" 
+             alt="image 1" 
+             style="width:200px; height:400px; object-fit:contain; border:1px solid #ddd; border-radius:4px;"/>
+        </p>
+      </td>
+      <td style="text-align:center; vertical-align:middle;">
+        <p align="center">
+        <img src="https://github.com/BOLTB0X/Pinger/blob/main/Img/%EC%8A%A4%EC%BC%80%EC%B9%98%20-%20%ED%85%8C%EC%8A%A4%ED%8A%B82.gif?raw=true" 
+             alt="image 2" 
+             style="width:200px; height:400px; object-fit:contain; border:1px solid #ddd; border-radius:4px;"/>
+        </p>
+      </td>
+    </tr>
+    <tr>
+      <td style="text-align:center; font-size:14px; font-weight:bold;">
+      <p align="center">
+        그리기
+      </p>
+      </td>
+      <td style="text-align:center; font-size:14px; font-weight:bold;">
+      <p align="center">
+        변환
+      </p>
+      </td>
+    </tr>
+  </table>
+</p>
 
 ## 참고
 
