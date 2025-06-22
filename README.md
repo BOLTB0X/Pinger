@@ -16,6 +16,8 @@
 
     - [Interrogator](https://huggingface.co/spaces/pharmapsychotic/CLIP-Interrogator)
 
+    - [AutoPipelineForImage2Image](https://huggingface.co/docs/diffusers/main/using-diffusers/img2img)
+
 - [블로그 참조 - Hugging Face 회원가입, 토큰 발급, APIKEY 발급 방법, 개발 환경 설정](https://hunseop2772.tistory.com/372)
 
 - [flutter dev - RenderRepaintBoundary](https://api.flutter.dev/flutter/rendering/RenderRepaintBoundary-class.html)

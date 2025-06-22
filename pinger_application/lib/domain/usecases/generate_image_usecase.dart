@@ -6,7 +6,7 @@ class GenerateImageUseCase {
 
   GenerateImageUseCase({required this.repository});
 
-  Future<GeneratedImage?> call(String base64, String api) async {
-    return await repository.generateFromSketch(base64, api);
+  Future<GeneratedImage?> call(String base64, String prompt, String api) async {
+    return await repository.generateFromSketch(base64, prompt, api);
   }
 }

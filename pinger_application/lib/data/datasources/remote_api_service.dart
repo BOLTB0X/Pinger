@@ -4,13 +4,17 @@ import 'dart:typed_data';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 class RemoteApiService {
-  Future<Uint8List?> postImage(String base64Sketch, String apiPath) async {
+  Future<Uint8List?> postImage(
+    String base64Sketch,
+    String prompt,
+    String apiPath,
+  ) async {
     final apiUrl = dotenv.env['HUGGINGFACE_URL']! + apiPath;
 
     final response = await http.post(
       Uri.parse(apiUrl),
       headers: {'Content-Type': 'application/json'},
-      body: jsonEncode({'image': base64Sketch}),
+      body: jsonEncode({'image': base64Sketch, 'prompt': prompt}),
     );
 
     if (response.statusCode == 200) {

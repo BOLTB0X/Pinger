@@ -17,7 +17,8 @@ class CanvasViewModel extends ChangeNotifier {
 
   final TextEditingController promptController = TextEditingController();
 
-  String _prompt = "A cute god with wings";
+  String _prompt =
+      "a peaceful village under sunset, anime style, vibrant colors";
   bool _showPrompt = false;
   bool _isPromptEmpty = false;
 
@@ -75,7 +76,7 @@ class CanvasViewModel extends ChangeNotifier {
 
     try {
       final base64 = await ImageUtils.extractAsBase64(key);
-      final image = await generateImageUseCase(base64, api);
+      final image = await generateImageUseCase(base64, _prompt, api);
 
       if (image == null) {
         resultImage = null;

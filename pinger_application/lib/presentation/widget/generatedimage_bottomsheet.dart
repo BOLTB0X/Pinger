@@ -13,7 +13,8 @@ class GeneratedImageBottomSheet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
+    return Container(
+      color: Colors.white,
       padding: const EdgeInsets.all(16),
       child: Column(
         mainAxisSize: MainAxisSize.min,
@@ -31,10 +32,10 @@ class GeneratedImageBottomSheet extends StatelessWidget {
           ElevatedButton.icon(
             onPressed: onClose,
             icon: const Icon(Icons.close),
-            label: const Text("닫기"),
+            label: const Text("close"),
           ),
         ],
       ),
     );
-  } // build
+  }
 } // GeneratedImageBottomSheet

@@ -33,7 +33,7 @@ class _CanvasViewState extends State<CanvasView> {
       body: DrawingCanvas(repaintKey: _canvasKey),
       floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
       floatingActionButton: _buildFloatingActionButton(viewModel),
-    );
+    ); // Scaffold
   } // build
 
   void _handleStatus(CanvasViewModel viewModel) {
@@ -61,7 +61,7 @@ class _CanvasViewState extends State<CanvasView> {
       case CanvasStatus.idle:
       default:
         break;
-    }
+    } // switch
   } // _handleStatus
 
   List<Widget> _buildAppbarActions(CanvasViewModel viewModel) {

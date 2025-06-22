@@ -10,9 +10,10 @@ class ImageRepositoryImpl implements ImageRepository {
   @override
   Future<GeneratedImage?> generateFromSketch(
     String base64Sketch,
+    String prompt,
     String api,
   ) async {
-    final result = await apiService.postImage(base64Sketch, api);
+    final result = await apiService.postImage(base64Sketch, prompt, api);
     return result != null ? GeneratedImage(result) : null;
   }
 }
