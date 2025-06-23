@@ -6,9 +6,10 @@ class LoadingDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const AlertDialog(
+      backgroundColor: Colors.white,
       content: Row(
         children: [
-          CircularProgressIndicator(),
+          CircularProgressIndicator(backgroundColor: Colors.blue),
           SizedBox(width: 16),
           Text("Creating image..."),
         ],

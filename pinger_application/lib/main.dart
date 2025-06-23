@@ -45,7 +45,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Pinger Sketch',
+      title: 'Pinger',
       theme: ThemeData(primarySwatch: Colors.blue),
       home: const CanvasView(),
     );

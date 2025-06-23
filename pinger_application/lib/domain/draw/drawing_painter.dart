@@ -12,6 +12,8 @@ class DrawingPainter extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
+    canvas.saveLayer(Offset.zero & size, Paint());
+
     for (final sketch in sketches) {
       canvas.drawPath(sketch.path, sketch.paint);
     }
@@ -24,6 +26,8 @@ class DrawingPainter extends CustomPainter {
 
       canvas.drawCircle(currentPoint!, 16, glowPaint);
     }
+
+    canvas.restore();
   } // paint
 
   @override

@@ -4,6 +4,10 @@ import 'package:provider/provider.dart';
 import '../viewmodel/canvas_viewmodel.dart';
 import '../extension/canvas_dialog_buildContext.dart';
 import '../../domain/draw/drawing_canvas.dart';
+import '../widget/icon_action_button.dart';
+import '../widget/floating_function_button.dart';
+import '../widget/prompt_textfield.dart';
+import '../widget/stroke_slider.dart';
 
 class CanvasView extends StatefulWidget {
   const CanvasView({super.key});
@@ -25,10 +29,10 @@ class _CanvasViewState extends State<CanvasView> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Pinger Sketch'),
+        title: const Text('Pinger'),
         backgroundColor: Colors.blue,
         actions: _buildAppbarActions(viewModel),
-        bottom: viewModel.showPrompt ? _buildAppbarBottom(viewModel) : null,
+        bottom: _buildAppbarBottom(viewModel),
       ),
       body: DrawingCanvas(repaintKey: _canvasKey),
       floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
@@ -65,62 +69,64 @@ class _CanvasViewState extends State<CanvasView> {
   } // _handleStatus
 
   List<Widget> _buildAppbarActions(CanvasViewModel viewModel) {
+    final isInputModeActive = viewModel.isInputModeActive;
     return [
-      IconButton(
-        icon: Icon(viewModel.showPrompt ? Icons.check : Icons.keyboard),
+      IconActionButton(
+        icon: viewModel.showPrompt ? Icons.check : Icons.keyboard,
         tooltip: '프롬프트 입력',
-        onPressed: () => viewModel.togglePromptField(),
+        onPressed: viewModel.togglePromptField,
+        isEnabled: !viewModel.showSlider,
       ),
-      IconButton(
-        icon: const Icon(Icons.arrow_back),
+      IconActionButton(
+        icon: Icons.arrow_back,
         tooltip: '실행 취소',
-        onPressed: () => viewModel.undo(),
+        onPressed: viewModel.undo,
+        isEnabled: !isInputModeActive,
       ),
-      IconButton(
-        icon: const Icon(Icons.arrow_forward),
+      IconActionButton(
+        icon: Icons.arrow_forward,
         tooltip: '다시 실행',
-        onPressed: () => viewModel.redo(),
+        onPressed: viewModel.redo,
+        isEnabled: !isInputModeActive,
       ),
-      IconButton(
-        icon: const Icon(Icons.delete),
+      IconActionButton(
+        icon: viewModel.showSlider ? Icons.check : Icons.line_style_rounded,
+        tooltip: '팬 굵기',
+        onPressed: viewModel.toggleSlider,
+        isEnabled: !viewModel.showPrompt,
+      ),
+      IconActionButton(
+        icon: viewModel.isErasing
+            ? Icons.auto_fix_off_rounded
+            : Icons.auto_fix_normal_rounded,
+        tooltip: '지우기',
+        onPressed: viewModel.toggleEraser,
+        isEnabled: !isInputModeActive,
+      ),
+      IconActionButton(
+        icon: Icons.delete,
         tooltip: '전체 삭제',
-        onPressed: () => viewModel.clear(),
+        onPressed: viewModel.clear,
+        isEnabled: !isInputModeActive,
       ),
     ];
   } // _buildAppbarActions
 
-  PreferredSize _buildAppbarBottom(CanvasViewModel viewModel) {
-    return PreferredSize(
-      preferredSize: const Size.fromHeight(70),
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-        child: TextField(
-          controller: viewModel.promptController,
-          style: const TextStyle(color: Colors.black),
-          decoration: InputDecoration(
-            labelText: viewModel.prompt,
-            hintText: "Enter your prompt",
-            labelStyle: const TextStyle(color: Colors.black),
-            enabledBorder: OutlineInputBorder(
-              borderRadius: const BorderRadius.all(Radius.circular(10.0)),
-              borderSide: BorderSide(
-                width: 1,
-                color: viewModel.isPromptEmpty ? Colors.redAccent : Colors.grey,
-              ),
-            ),
-            focusedBorder: OutlineInputBorder(
-              borderRadius: const BorderRadius.all(Radius.circular(10.0)),
-              borderSide: BorderSide(
-                width: 1,
-                color: viewModel.isPromptEmpty ? Colors.redAccent : Colors.grey,
-              ),
-            ),
-            errorText: viewModel.isPromptEmpty ? 'prompt is empty' : null,
-          ),
-          onChanged: viewModel.updatePrompt,
-        ),
-      ),
-    );
+  PreferredSizeWidget? _buildAppbarBottom(CanvasViewModel viewModel) {
+    if (viewModel.showPrompt) {
+      return PromptTextField(
+        controller: viewModel.promptController,
+        prompt: viewModel.prompt,
+        isPromptEmpty: viewModel.isPromptEmpty,
+        onChanged: viewModel.updatePrompt,
+      );
+    } else if (viewModel.showSlider) {
+      return StrokeSlider(
+        strokeWidth: viewModel.strokeWidth,
+        onChanged: viewModel.updateStrokeWidth,
+      );
+    }
+    return null;
   } // _buildAppbarBottom
 
   Widget _buildFloatingActionButton(CanvasViewModel viewModel) {
@@ -129,22 +135,24 @@ class _CanvasViewState extends State<CanvasView> {
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          FloatingActionButton(
+          FloatingFunctionButton(
+            icon: Icons.check,
             heroTag: 'generate',
             tooltip: 'Generate',
             onPressed: () async {
               await viewModel.fetchGeneratedImage(_canvasKey, "/generate");
             },
+            foregroundColor: Colors.black,
             backgroundColor: Colors.blue,
-            child: const Icon(Icons.check),
           ),
           const SizedBox(width: 12),
-          FloatingActionButton(
+          FloatingFunctionButton(
+            icon: Icons.save,
             heroTag: 'save',
             tooltip: 'save',
             onPressed: () {},
+            foregroundColor: Colors.black,
             backgroundColor: Colors.blue,
-            child: const Icon(Icons.save),
           ),
         ],
       ),

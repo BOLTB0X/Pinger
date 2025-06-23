@@ -10,8 +10,6 @@ class CanvasViewModel extends ChangeNotifier {
   DrawingManager drawingManager;
   GenerateImageUseCase generateImageUseCase;
 
-  CanvasViewModel(this.drawingManager, this.generateImageUseCase);
-
   CanvasStatus status = CanvasStatus.idle;
   Uint8List? resultImage;
 
@@ -20,11 +18,24 @@ class CanvasViewModel extends ChangeNotifier {
   String _prompt =
       "a peaceful village under sunset, anime style, vibrant colors";
   bool _showPrompt = false;
+  bool _showSlider = false;
+
   bool _isPromptEmpty = false;
+  bool _isErasing = false;
+  double _strokeWidth = 4.0;
 
   String get prompt => _prompt;
   bool get showPrompt => _showPrompt;
+  bool get showSlider => _showSlider;
   bool get isPromptEmpty => _isPromptEmpty;
+  bool get isErasing => _isErasing;
+  double get strokeWidth => _strokeWidth;
+
+  bool get isInputModeActive => _showPrompt || _showSlider;
+
+  CanvasViewModel(this.drawingManager, this.generateImageUseCase) {
+    promptController.text = _prompt;
+  }
 
   // Methods
   // ...
@@ -68,6 +79,23 @@ class CanvasViewModel extends ChangeNotifier {
     status = CanvasStatus.idle;
     notifyListeners();
   } // resetStatus
+
+  void toggleEraser() {
+    _isErasing = !_isErasing;
+    drawingManager.eraseMode = _isErasing;
+    notifyListeners();
+  } // toggleEraser
+
+  void toggleSlider() {
+    _showSlider = !_showSlider;
+    notifyListeners();
+  } // toggleSlider
+
+  void updateStrokeWidth(double value) {
+    _strokeWidth = value;
+    drawingManager.strokeWidth = _strokeWidth;
+    notifyListeners();
+  } // updateStrokeWidth
 
   Future<void> fetchGeneratedImage(GlobalKey key, String api) async {
     status = CanvasStatus.loading;

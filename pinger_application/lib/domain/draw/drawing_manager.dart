@@ -5,6 +5,8 @@ import '../../data/models/path_history.dart';
 class DrawingManager extends ChangeNotifier {
   final PathHistory _history = PathHistory();
   Sketch? _currentSketch;
+  bool _eraseMode = false;
+  double _strokeWidth = 4.0;
 
   List<Sketch> get sketches {
     if (_currentSketch == null) return _history.sketches;
@@ -20,17 +22,22 @@ class DrawingManager extends ChangeNotifier {
     return lastTangent?.position;
   } // currentDrawingPoint
 
+  set eraseMode(bool val) {
+    _eraseMode = val;
+  } // eraseMode
+
+  set strokeWidth(double val) {
+    _strokeWidth = val;
+  } // strokeWidth
+
   // Methods
   // ....
 
-  void startSketch(
-    Offset point, {
-    Color color = Colors.black,
-    double strokeWidth = 4.0,
-  }) {
+  void startSketch(Offset point, {Color color = Colors.black}) {
     final paint = Paint()
-      ..color = color
-      ..strokeWidth = strokeWidth
+      ..color = _eraseMode ? const Color(0x00000000) : color
+      ..blendMode = _eraseMode ? BlendMode.clear : BlendMode.srcOver
+      ..strokeWidth = _eraseMode ? _strokeWidth * 5.0 : _strokeWidth
       ..strokeCap = StrokeCap.round
       ..style = PaintingStyle.stroke;
 

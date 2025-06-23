@@ -8,9 +8,10 @@ class ErrorDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: const Text("오류"),
-      content: const Text("AI 이미지 생성 실패"),
-      actions: [TextButton(onPressed: onConfirm, child: const Text("확인"))],
+      backgroundColor: Colors.white,
+      title: const Text("Fail"),
+      content: const Text("AI image creation failed"),
+      actions: [TextButton(onPressed: onConfirm, child: const Text("OK"))],
     );
   } // build
 } // ErrorDialog

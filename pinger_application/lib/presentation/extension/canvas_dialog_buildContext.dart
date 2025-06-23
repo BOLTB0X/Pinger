@@ -1,7 +1,7 @@
 import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import '../widget/error_dialog.dart';
-import '../widget/generatedimage_bottomsheet.dart';
+import '../widget/generated_image_bottomsheet.dart';
 import '../widget/loading_dialog.dart';
 
 extension CanvasDialogBuildContext on BuildContext {
