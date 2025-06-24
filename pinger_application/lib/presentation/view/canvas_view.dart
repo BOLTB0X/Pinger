@@ -1,4 +1,3 @@
-//import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../viewmodel/canvas_viewmodel.dart';
@@ -31,12 +30,12 @@ class _CanvasViewState extends State<CanvasView> {
       appBar: AppBar(
         title: const Text('Pinger'),
         backgroundColor: Colors.blue,
-        actions: _buildAppbarActions(viewModel),
-        bottom: _buildAppbarBottom(viewModel),
+        actions: _editActions(viewModel),
+        bottom: _stateBottom(viewModel),
       ),
       body: DrawingCanvas(repaintKey: _canvasKey),
       floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
-      floatingActionButton: _buildFloatingActionButton(viewModel),
+      floatingActionButton: _networkActions(viewModel),
     ); // Scaffold
   } // build
 
@@ -68,7 +67,7 @@ class _CanvasViewState extends State<CanvasView> {
     } // switch
   } // _handleStatus
 
-  List<Widget> _buildAppbarActions(CanvasViewModel viewModel) {
+  List<Widget> _editActions(CanvasViewModel viewModel) {
     final isInputModeActive = viewModel.isInputModeActive;
     return [
       IconActionButton(
@@ -112,7 +111,7 @@ class _CanvasViewState extends State<CanvasView> {
     ];
   } // _buildAppbarActions
 
-  PreferredSizeWidget? _buildAppbarBottom(CanvasViewModel viewModel) {
+  PreferredSizeWidget? _stateBottom(CanvasViewModel viewModel) {
     if (viewModel.showPrompt) {
       return PromptTextField(
         controller: viewModel.promptController,
@@ -129,7 +128,7 @@ class _CanvasViewState extends State<CanvasView> {
     return null;
   } // _buildAppbarBottom
 
-  Widget _buildFloatingActionButton(CanvasViewModel viewModel) {
+  Widget _networkActions(CanvasViewModel viewModel) {
     return Padding(
       padding: const EdgeInsets.only(bottom: 16.0, right: 8.0),
       child: Row(
