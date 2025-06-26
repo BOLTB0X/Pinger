@@ -2,11 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../viewmodel/canvas_viewmodel.dart';
 import '../extension/canvas_dialog_buildContext.dart';
-import '../../domain/draw/drawing_canvas.dart';
 import '../widget/icon_action_button.dart';
 import '../widget/floating_function_button.dart';
 import '../widget/prompt_textfield.dart';
 import '../widget/stroke_slider.dart';
+import '../../domain/draw/drawing_canvas.dart';
+import 'result_view.dart';
 
 class CanvasView extends StatefulWidget {
   const CanvasView({super.key});
@@ -55,11 +56,14 @@ class _CanvasViewState extends State<CanvasView> {
         viewModel.resetStatus();
         Navigator.popUntil(context, (route) => route.isFirst);
         if (viewModel.resultImage case final img?) {
-          context.showGeneratedImageBottomSheet(img, () {
-            viewModel.resetStatus();
-            Navigator.pop(context);
-          });
-        }
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (_) =>
+                  ResultView(imageBytes: img, prompt: viewModel.prompt),
+            ),
+          );
+        } // if
         break;
       case CanvasStatus.idle:
       default:
@@ -109,7 +113,7 @@ class _CanvasViewState extends State<CanvasView> {
         isEnabled: !isInputModeActive,
       ),
     ];
-  } // _buildAppbarActions
+  } // _editActions
 
   PreferredSizeWidget? _stateBottom(CanvasViewModel viewModel) {
     if (viewModel.showPrompt) {
@@ -126,7 +130,7 @@ class _CanvasViewState extends State<CanvasView> {
       );
     }
     return null;
-  } // _buildAppbarBottom
+  } // _stateBottom
 
   Widget _networkActions(CanvasViewModel viewModel) {
     return Padding(
@@ -139,22 +143,13 @@ class _CanvasViewState extends State<CanvasView> {
             heroTag: 'generate',
             tooltip: 'Generate',
             onPressed: () async {
-              await viewModel.fetchGeneratedImage(_canvasKey, "/generate");
+              await viewModel.fetchGeneratedImage(_canvasKey);
             },
-            foregroundColor: Colors.black,
-            backgroundColor: Colors.blue,
-          ),
-          const SizedBox(width: 12),
-          FloatingFunctionButton(
-            icon: Icons.save,
-            heroTag: 'save',
-            tooltip: 'save',
-            onPressed: () {},
             foregroundColor: Colors.black,
             backgroundColor: Colors.blue,
           ),
         ],
       ),
     );
-  } // _buildFloatingActionButton
+  } // _networkActions
 } // _CanvasViewState

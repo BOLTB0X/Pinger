@@ -8,9 +8,11 @@ import 'core/network/httpoverrides_service.dart';
 import 'data/repositories/image_repository_impl.dart';
 import 'data/datasources/remote_api_service.dart';
 import 'domain/usecases/generate_image_usecase.dart';
+import 'domain/usecases/save_image_usecase.dart';
 import 'domain/draw/drawing_manager.dart';
 import 'presentation/view/canvas_view.dart';
 import 'presentation/viewmodel/canvas_viewmodel.dart';
+import 'presentation/viewmodel/result_viewmodel.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -22,16 +24,23 @@ void main() async {
   final generateImageUseCase = GenerateImageUseCase(
     repository: imageRepository,
   );
+  final saveImageUseCase = SaveImageUseCase(repository: imageRepository);
 
   runApp(
     MultiProvider(
       providers: [
+        // DrawingManager
         ChangeNotifierProvider(create: (_) => DrawingManager()),
+        // CanvasViewModel
         ChangeNotifierProvider(
           create: (context) => CanvasViewModel(
             context.read<DrawingManager>(),
             generateImageUseCase,
           ),
+        ),
+        // ResultViewModel
+        ChangeNotifierProvider(
+          create: (context) => ResultViewModel(saveImageUseCase),
         ),
       ],
       child: const MyApp(),

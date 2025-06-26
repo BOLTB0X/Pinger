@@ -74,3 +74,7 @@
 - [Flutter pub - painter](https://pub.dev/packages/painter)
 
 - [블로그 참고 - 마느아의 전산 공부 블로그(AppBar 총정리(flutter))](https://learncom1234.tistory.com/17)
+
+- [오픈 소스 - 플라스크 REST API 튜토리얼](https://colab.research.google.com/github/PyTorchKorea/tutorials-kr/blob/master/docs/_downloads/786469bd4d28fe2528b92a6d12fb189e/flask_rest_api_tutorial.ipynb)
+
+- [블로그 참고 - dev-nam(키보드가 열렸는지 닫혔는지 확인하는 방법)](https://dev-nam.tistory.com/30)

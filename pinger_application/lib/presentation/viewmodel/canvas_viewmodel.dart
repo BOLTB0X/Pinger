@@ -97,14 +97,14 @@ class CanvasViewModel extends ChangeNotifier {
     notifyListeners();
   } // updateStrokeWidth
 
-  Future<void> fetchGeneratedImage(GlobalKey key, String api) async {
+  Future<void> fetchGeneratedImage(GlobalKey key) async {
     status = CanvasStatus.loading;
 
     notifyListeners();
 
     try {
       final base64 = await ImageUtils.extractAsBase64(key);
-      final image = await generateImageUseCase(base64, _prompt, api);
+      final image = await generateImageUseCase(base64, _prompt);
 
       if (image == null) {
         resultImage = null;

@@ -1,6 +1,7 @@
 import '../../domain/entities/generated_image.dart';
 import '../../domain/repositories/image_repository.dart';
 import '../datasources/remote_api_service.dart';
+import 'dart:typed_data';
 
 class ImageRepositoryImpl implements ImageRepository {
   final RemoteApiService apiService;
@@ -11,9 +12,21 @@ class ImageRepositoryImpl implements ImageRepository {
   Future<GeneratedImage?> generateFromSketch(
     String base64Sketch,
     String prompt,
-    String api,
   ) async {
-    final result = await apiService.postImage(base64Sketch, prompt, api);
+    final result = await apiService.postImage(base64Sketch, prompt);
     return result != null ? GeneratedImage(result) : null;
-  }
-}
+  } // generateFromSketch
+
+  @override
+  Future<bool> saveGeneratedImage(
+    Uint8List image,
+    String prompt,
+    String filename,
+  ) async {
+    return await apiService.postSaveImage(
+      imageBytes: image,
+      prompt: prompt,
+      filename: filename,
+    );
+  } // saveGeneratedImage
+} // ImageRepositoryImpl
