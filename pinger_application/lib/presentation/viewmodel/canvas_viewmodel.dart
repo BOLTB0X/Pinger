@@ -23,6 +23,7 @@ class CanvasViewModel extends ChangeNotifier {
   bool _isPromptEmpty = false;
   bool _isErasing = false;
   double _strokeWidth = 4.0;
+  bool _showEditBar = false;
 
   String get prompt => _prompt;
   bool get showPrompt => _showPrompt;
@@ -30,8 +31,8 @@ class CanvasViewModel extends ChangeNotifier {
   bool get isPromptEmpty => _isPromptEmpty;
   bool get isErasing => _isErasing;
   double get strokeWidth => _strokeWidth;
-
   bool get isInputModeActive => _showPrompt || _showSlider;
+  bool get showEditBar => _showEditBar;
 
   CanvasViewModel(this.drawingManager, this.generateImageUseCase) {
     promptController.text = _prompt;
@@ -47,6 +48,11 @@ class CanvasViewModel extends ChangeNotifier {
     }
     notifyListeners();
   } // togglePromptField
+
+  void toggleEditBar() {
+    _showEditBar = !_showEditBar;
+    notifyListeners();
+  } // toggleEditBar
 
   void updatePrompt(String value) {
     _prompt = value;

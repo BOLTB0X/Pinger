@@ -78,3 +78,9 @@
 - [오픈 소스 - 플라스크 REST API 튜토리얼](https://colab.research.google.com/github/PyTorchKorea/tutorials-kr/blob/master/docs/_downloads/786469bd4d28fe2528b92a6d12fb189e/flask_rest_api_tutorial.ipynb)
 
 - [블로그 참고 - dev-nam(키보드가 열렸는지 닫혔는지 확인하는 방법)](https://dev-nam.tistory.com/30)
+
+- [블로그 참고 - 참깨빵위에참깨빵_(BottomSheet 사용법)](https://onlyfor-me-blog.tistory.com/1088)
+
+- [Medium - Flutter Community(Build a Custom Bottom Navigation Bar in Flutter with Animated Icons from Rive)](https://medium.com/flutter-community/build-a-custom-bottom-navigation-bar-in-flutter-with-animated-icons-from-rive-13651bc80629)
+
+- [블로그 참고 - day0404(Flutter Animation 만들기 (with Provider))](https://day0404.tistory.com/51)
