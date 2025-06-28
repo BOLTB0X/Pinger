@@ -1,4 +1,5 @@
 import '../entities/generated_image.dart';
+import '../models/generated_image_metadata.dart';
 import 'dart:typed_data';
 
 abstract class ImageRepository {
@@ -12,4 +13,8 @@ abstract class ImageRepository {
     String prompt,
     String filename,
   ); // saveGeneratedImage
+
+  Future<List<GeneratedImageMetadata>> fetchImageMetadataList({
+    int limit = 10,
+  }); // fetchImageMetadataList
 } // ImageRepository

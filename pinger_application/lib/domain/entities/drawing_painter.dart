@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../data/models/sketch.dart';
+import '../models/sketch.dart';
 
 class DrawingPainter extends CustomPainter {
   final List<Sketch> sketches;

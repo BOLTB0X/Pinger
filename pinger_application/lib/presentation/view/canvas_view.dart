@@ -5,8 +5,9 @@ import '../extension/canvas_dialog_buildContext.dart';
 import '../widget/icon_action_button.dart';
 import '../widget/input_textfield.dart';
 import '../widget/stroke_slider.dart';
-import '../../domain/draw/drawing_canvas.dart';
+import '../../domain/entities/drawing_canvas.dart';
 import 'result_view.dart';
+import 'image_list_view.dart';
 
 class CanvasView extends StatefulWidget {
   const CanvasView({super.key});
@@ -90,6 +91,15 @@ class _CanvasViewState extends State<CanvasView>
           );
         } // if
         break;
+
+      case CanvasStatus.my:
+        viewModel.resetStatus();
+        Navigator.popUntil(context, (route) => route.isFirst);
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (_) => ImageListView()),
+        );
+        break;
       default:
         break;
     } // switch
@@ -109,6 +119,15 @@ class _CanvasViewState extends State<CanvasView>
               _slideController.reverse();
             }
           });
+        },
+        isEnabled: true,
+      ),
+
+      IconActionButton(
+        icon: Icons.list,
+        tooltip: '리스트',
+        onPressed: () {
+          viewModel.moveToMyList();
         },
         isEnabled: true,
       ),

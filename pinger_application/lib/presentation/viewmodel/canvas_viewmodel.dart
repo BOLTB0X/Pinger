@@ -1,10 +1,10 @@
 import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import '../../domain/usecases/generate_image_usecase.dart';
-import '../../domain/draw/drawing_manager.dart';
+import '../../domain/entities/drawing_manager.dart';
 import '../../core/utils/image_utils.dart';
 
-enum CanvasStatus { idle, loading, success, error }
+enum CanvasStatus { idle, my, loading, success, error }
 
 class CanvasViewModel extends ChangeNotifier {
   DrawingManager drawingManager;
@@ -53,6 +53,11 @@ class CanvasViewModel extends ChangeNotifier {
     _showEditBar = !_showEditBar;
     notifyListeners();
   } // toggleEditBar
+
+  void moveToMyList() {
+    status = CanvasStatus.my;
+    notifyListeners();
+  } // moveToMyList
 
   void updatePrompt(String value) {
     _prompt = value;

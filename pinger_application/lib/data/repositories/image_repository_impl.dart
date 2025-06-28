@@ -1,6 +1,7 @@
 import '../../domain/entities/generated_image.dart';
 import '../../domain/repositories/image_repository.dart';
 import '../datasources/remote_api_service.dart';
+import '../../domain/models/generated_image_metadata.dart';
 import 'dart:typed_data';
 
 class ImageRepositoryImpl implements ImageRepository {
@@ -29,4 +30,11 @@ class ImageRepositoryImpl implements ImageRepository {
       filename: filename,
     );
   } // saveGeneratedImage
+
+  @override
+  Future<List<GeneratedImageMetadata>> fetchImageMetadataList({
+    int limit = 10,
+  }) async {
+    return await apiService.getImageMetadataList(limit: limit);
+  } // fetchImageMetadataList
 } // ImageRepositoryImpl

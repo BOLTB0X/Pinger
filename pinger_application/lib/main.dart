@@ -9,10 +9,12 @@ import 'data/repositories/image_repository_impl.dart';
 import 'data/datasources/remote_api_service.dart';
 import 'domain/usecases/generate_image_usecase.dart';
 import 'domain/usecases/save_image_usecase.dart';
-import 'domain/draw/drawing_manager.dart';
+import 'domain/usecases/fetch_image_metadata_list_usecase.dart';
+import 'domain/entities/drawing_manager.dart';
 import 'presentation/view/canvas_view.dart';
 import 'presentation/viewmodel/canvas_viewmodel.dart';
 import 'presentation/viewmodel/result_viewmodel.dart';
+import 'presentation/viewmodel/image_list_viewmodel.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -25,6 +27,9 @@ void main() async {
     repository: imageRepository,
   );
   final saveImageUseCase = SaveImageUseCase(repository: imageRepository);
+  final fetchImageMetadataListUseCase = FetchImageMetadataListUseCase(
+    repository: imageRepository,
+  );
 
   runApp(
     MultiProvider(
@@ -40,7 +45,13 @@ void main() async {
         ),
         // ResultViewModel
         ChangeNotifierProvider(
-          create: (context) => ResultViewModel(saveImageUseCase),
+          create: (context) =>
+              ResultViewModel(saveImageUseCase: saveImageUseCase),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => ImageListViewModel(
+            fetchImageListUseCase: fetchImageMetadataListUseCase,
+          ),
         ),
       ],
       child: const MyApp(),

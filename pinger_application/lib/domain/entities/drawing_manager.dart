@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import '../../data/models/sketch.dart';
-import '../../data/models/path_history.dart';
+import '../models/sketch.dart';
+import '../models/path_history.dart';
 
 class DrawingManager extends ChangeNotifier {
   final PathHistory _history = PathHistory();

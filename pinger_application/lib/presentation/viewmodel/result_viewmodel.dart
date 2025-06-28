@@ -21,7 +21,7 @@ class ResultViewModel extends ChangeNotifier {
 
   final TextEditingController titleController = TextEditingController();
 
-  ResultViewModel(this.saveImageUseCase) {
+  ResultViewModel({required this.saveImageUseCase}) {
     titleController.text = _fileName;
   }
 
