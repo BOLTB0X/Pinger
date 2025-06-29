@@ -1,7 +1,7 @@
-import '../../domain/entities/generated_image.dart';
+import '../../domain/entities/generative_image.dart';
 import '../../domain/repositories/image_repository.dart';
 import '../datasources/remote_api_service.dart';
-import '../../domain/models/generated_image_metadata.dart';
+import '../../domain/models/generated_image.dart';
 import 'dart:typed_data';
 
 class ImageRepositoryImpl implements ImageRepository {
@@ -10,12 +10,12 @@ class ImageRepositoryImpl implements ImageRepository {
   ImageRepositoryImpl(this.apiService);
 
   @override
-  Future<GeneratedImage?> generateFromSketch(
+  Future<GenerativeImage?> generateFromSketch(
     String base64Sketch,
     String prompt,
   ) async {
     final result = await apiService.postImage(base64Sketch, prompt);
-    return result != null ? GeneratedImage(result) : null;
+    return result != null ? GenerativeImage(result) : null;
   } // generateFromSketch
 
   @override
@@ -32,9 +32,7 @@ class ImageRepositoryImpl implements ImageRepository {
   } // saveGeneratedImage
 
   @override
-  Future<List<GeneratedImageMetadata>> fetchImageMetadataList({
-    int limit = 10,
-  }) async {
-    return await apiService.getImageMetadataList(limit: limit);
+  Future<List<GeneratedImage>> fetchGeneratedImageList({int limit = 10}) async {
+    return await apiService.getGeneratedImageList(limit: limit);
   } // fetchImageMetadataList
 } // ImageRepositoryImpl

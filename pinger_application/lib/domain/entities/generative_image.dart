@@ -1,7 +1,7 @@
 import 'dart:typed_data';
 
-class GeneratedImage {
+class GenerativeImage {
   final Uint8List imageBytes;
 
-  GeneratedImage(this.imageBytes);
+  GenerativeImage(this.imageBytes);
 } // GeneratedImage

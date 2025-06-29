@@ -1,3 +1,4 @@
+import '../../domain/models/generated_image.dart';
 import '../../domain/models/generated_image_metadata.dart';
 
 class GeneratedImageDTO {
@@ -22,12 +23,16 @@ class GeneratedImageDTO {
     );
   } // fromJson
 
-  GeneratedImageMetadata toEntity() {
-    return GeneratedImageMetadata(
+  GeneratedImage toEntity(String flaskUrl) {
+    final metadata = GeneratedImageMetadata(
       id: id,
       prompt: prompt,
       filename: filename,
       timestamp: DateTime.parse(timestamp),
     );
+
+    final imageUrl = "$flaskUrl/images/$filename";
+
+    return GeneratedImage(metadata: metadata, imageUrl: imageUrl);
   } // toEntity
 } // GeneratedImageDTO

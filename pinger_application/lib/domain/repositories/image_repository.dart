@@ -1,9 +1,9 @@
-import '../entities/generated_image.dart';
-import '../models/generated_image_metadata.dart';
+import '../entities/generative_image.dart';
+import '../models/generated_image.dart';
 import 'dart:typed_data';
 
 abstract class ImageRepository {
-  Future<GeneratedImage?> generateFromSketch(
+  Future<GenerativeImage?> generateFromSketch(
     String base64Sketch,
     String prompt,
   ); // generateFromSketch
@@ -14,7 +14,7 @@ abstract class ImageRepository {
     String filename,
   ); // saveGeneratedImage
 
-  Future<List<GeneratedImageMetadata>> fetchImageMetadataList({
+  Future<List<GeneratedImage>> fetchGeneratedImageList({
     int limit = 10,
-  }); // fetchImageMetadataList
+  }); // fetchGeneratedImageList
 } // ImageRepository

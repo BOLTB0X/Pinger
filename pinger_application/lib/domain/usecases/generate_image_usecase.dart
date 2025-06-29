@@ -1,4 +1,4 @@
-import '../entities/generated_image.dart';
+import '../entities/generative_image.dart';
 import '../repositories/image_repository.dart';
 
 class GenerateImageUseCase {
@@ -6,7 +6,7 @@ class GenerateImageUseCase {
 
   GenerateImageUseCase({required this.repository});
 
-  Future<GeneratedImage?> call(String base64, String prompt) async {
+  Future<GenerativeImage?> call(String base64, String prompt) async {
     return await repository.generateFromSketch(base64, prompt);
   }
 }

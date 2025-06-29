@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import '../../domain/models/generated_image_metadata.dart';
+import '../../domain/models/generated_image.dart';
 import '../../domain/usecases/fetch_image_metadata_list_usecase.dart';
 
 class ImageListViewModel extends ChangeNotifier {
   final FetchImageMetadataListUseCase fetchImageListUseCase;
 
-  List<GeneratedImageMetadata> _images = [];
-  List<GeneratedImageMetadata> get images => _images;
+  List<GeneratedImage> _images = [];
+  List<GeneratedImage> get images => _images;
 
   bool _isLoading = false;
   bool get isLoading => _isLoading;

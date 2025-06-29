@@ -4,6 +4,7 @@ import 'dart:convert';
 import 'dart:typed_data';
 import 'dart:core';
 import '../../domain/models/generated_image_metadata.dart';
+import '../../domain/models/generated_image.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 class RemoteApiService {
@@ -67,17 +68,19 @@ class RemoteApiService {
     } // try - catch
   } // postSaveImage
 
-  Future<List<GeneratedImageMetadata>> getImageMetadataList({
-    int limit = 10,
-  }) async {
+  Future<List<GeneratedImage>> getGeneratedImageList({int limit = 10}) async {
     try {
       final url = Uri.parse("${dotenv.env['FLASK_URL']}/read?limit=$limit");
-
       final response = await http.get(url);
 
       if (response.statusCode == 200) {
         final List<dynamic> decoded = jsonDecode(response.body);
-        return decoded.map((e) => GeneratedImageMetadata.fromJson(e)).toList();
+        return decoded.map((e) {
+          final metadata = GeneratedImageMetadata.fromJson(e);
+          final imageUrl =
+              "${dotenv.env['FLASK_URL']}/images/${metadata.filename}";
+          return GeneratedImage(metadata: metadata, imageUrl: imageUrl);
+        }).toList();
       } else {
         print("불러오기 실패: ${response.statusCode}, ${response.body}");
         return [];
@@ -86,5 +89,5 @@ class RemoteApiService {
       print("예외 발생: $e");
       return [];
     } // try - catch
-  }
+  } // getGenratedImageList
 } // RemoteApiService
