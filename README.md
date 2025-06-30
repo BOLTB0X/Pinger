@@ -35,6 +35,39 @@
   </table>
 </p>
 
+<p align="center">
+  <table style="width:100%; text-align:center; border-spacing:20px;">
+    <tr>
+      <td style="text-align:center; vertical-align:middle;">
+        <p align="center">
+        <img src="https://github.com/BOLTB0X/Pinger/blob/main/Img/%ED%8E%AD%EA%B7%84%20-%201.gif?raw=true" 
+             alt="image 1" 
+             style="width:200px; height:400px; object-fit:contain; border:1px solid #ddd; border-radius:4px;"/>
+        </p>
+      </td>
+      <td style="text-align:center; vertical-align:middle;">
+        <p align="center">
+        <img src="https://github.com/BOLTB0X/Pinger/blob/main/Img/%ED%8E%AD%EA%B7%84%20-%202.gif?raw=true" 
+             alt="image 2" 
+             style="width:200px; height:400px; object-fit:contain; border:1px solid #ddd; border-radius:4px;"/>
+        </p>
+      </td>
+    </tr>
+    <tr>
+      <td style="text-align:center; font-size:14px; font-weight:bold;">
+      <p align="center">
+        프롬프트
+      </p>
+      </td>
+      <td style="text-align:center; font-size:14px; font-weight:bold;">
+      <p align="center">
+        저장
+      </p>
+      </td>
+    </tr>
+  </table>
+</p>
+
 ## 참고
 
 - [Hugging face](https://huggingface.co/)
@@ -84,3 +117,5 @@
 - [Medium - Flutter Community(Build a Custom Bottom Navigation Bar in Flutter with Animated Icons from Rive)](https://medium.com/flutter-community/build-a-custom-bottom-navigation-bar-in-flutter-with-animated-icons-from-rive-13651bc80629)
 
 - [블로그 참고 - day0404(Flutter Animation 만들기 (with Provider))](https://day0404.tistory.com/51)
+
+- []()
