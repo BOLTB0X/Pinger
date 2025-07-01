@@ -1,5 +1,6 @@
 import '../entities/generative_image.dart';
 import '../models/generated_image.dart';
+import '../models/sketch.dart';
 import 'dart:typed_data';
 
 abstract class ImageRepository {
@@ -12,6 +13,7 @@ abstract class ImageRepository {
     Uint8List image,
     String prompt,
     String filename,
+    List<Sketch> sketches,
   ); // saveGeneratedImage
 
   Future<List<GeneratedImage>> fetchGeneratedImageList({

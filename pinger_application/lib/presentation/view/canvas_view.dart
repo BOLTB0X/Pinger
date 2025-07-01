@@ -85,8 +85,11 @@ class _CanvasViewState extends State<CanvasView>
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (_) =>
-                  ResultView(imageBytes: img, prompt: viewModel.prompt),
+              builder: (_) => ResultView(
+                imageBytes: img,
+                prompt: viewModel.prompt,
+                sketches: viewModel.drawingManager.sketches,
+              ),
             ),
           );
         } // if

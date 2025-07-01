@@ -10,5 +10,5 @@ class ImageUtils {
     final image = await boundary.toImage(pixelRatio: 3.0);
     final byteData = await image.toByteData(format: ui.ImageByteFormat.png);
     return base64Encode(byteData!.buffer.asUint8List());
-  }
-}
+  } // extractAsBase64
+} // ImageUtils

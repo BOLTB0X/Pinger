@@ -1,6 +1,7 @@
 import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import '../../domain/usecases/save_image_usecase.dart';
+import '../../domain/models/sketch.dart';
 
 enum SaveStatus { idle, saving, success, error }
 
@@ -51,14 +52,30 @@ class ResultViewModel extends ChangeNotifier {
     Uint8List imageBytes,
     String prompt,
     String filename,
+    List<Sketch> sketches,
   ) async {
-    if (_isSaving) {
-      _status = SaveStatus.success;
-    } else {
-      _isSaving = await saveImageUseCase(imageBytes, prompt, filename);
-      _status = _isSaving ? SaveStatus.success : SaveStatus.error;
-    } // if - else
+    if (_isSaving) return;
 
+    _isSaving = true;
+    _status = SaveStatus.saving;
     notifyListeners();
-  } // requestSave
+
+    try {
+      final success = await saveImageUseCase(
+        imageBytes,
+        prompt,
+        filename,
+        sketches,
+      );
+
+      _status = success ? SaveStatus.success : SaveStatus.error;
+    } catch (e, stackTrace) {
+      print("Save error: $e");
+      print(stackTrace); // 로그 추적을 위해
+      _status = SaveStatus.error;
+    } finally {
+      _isSaving = false;
+      notifyListeners();
+    }
+  }
 } // ResultViewModel

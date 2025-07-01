@@ -43,27 +43,30 @@ class _ImageListViewState extends State<ImageListView> {
       return const Center(child: Text("No images found"));
     }
 
-    return ListView.builder(
-      itemCount: images.length,
-      itemBuilder: (context, index) {
-        final image = images[index];
-        return ListTile(
-          leading: CachedNetworkImage(
-            imageUrl: image.imageUrl,
-            placeholder: (context, url) =>
-                const CircularProgressIndicator(strokeWidth: 2),
-            errorWidget: (context, url, error) => const Icon(Icons.error),
-            width: 48,
-            height: 48,
-            fit: BoxFit.cover,
-          ),
-          title: Text(image.metadata.filename),
-          subtitle: Text(image.metadata.prompt),
-          onTap: () {
-            // TODO: 상세 페이지 이동
-          },
-        );
-      },
+    return RefreshIndicator(
+      onRefresh: () => viewModel.loadImages(),
+      child: ListView.builder(
+        itemCount: images.length,
+        itemBuilder: (context, index) {
+          final image = images[index];
+          return ListTile(
+            leading: CachedNetworkImage(
+              imageUrl: image.imageUrl,
+              placeholder: (context, url) =>
+                  const CircularProgressIndicator(strokeWidth: 2),
+              errorWidget: (context, url, error) => const Icon(Icons.error),
+              width: 48,
+              height: 48,
+              fit: BoxFit.cover,
+            ),
+            title: Text(image.filename),
+            subtitle: Text(image.prompt),
+            onTap: () {
+              // TODO: 상세 페이지 이동
+            },
+          );
+        },
+      ),
     );
   } // _buildBody
 } // _ImageListViewState

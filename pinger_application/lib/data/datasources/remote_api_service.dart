@@ -3,8 +3,8 @@ import 'package:http_parser/http_parser.dart';
 import 'dart:convert';
 import 'dart:typed_data';
 import 'dart:core';
-import '../../domain/models/generated_image_metadata.dart';
-import '../../domain/models/generated_image.dart';
+import '../models/generated_image_dto.dart';
+import '../models/sketch_dto.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 class RemoteApiService {
@@ -37,6 +37,7 @@ class RemoteApiService {
     required Uint8List imageBytes,
     required String prompt,
     required String filename,
+    required List<SketchDTO> sketches,
   }) async {
     try {
       final url = Uri.parse("${dotenv.env['FLASK_URL']}/create");
@@ -44,6 +45,9 @@ class RemoteApiService {
       final request = http.MultipartRequest('POST', url)
         ..fields['prompt'] = prompt
         ..fields['filename'] = filename
+        ..fields['sketch'] = jsonEncode(
+          sketches.map((e) => e.toJson()).toList(),
+        )
         ..files.add(
           http.MultipartFile.fromBytes(
             'image',
@@ -68,19 +72,16 @@ class RemoteApiService {
     } // try - catch
   } // postSaveImage
 
-  Future<List<GeneratedImage>> getGeneratedImageList({int limit = 10}) async {
+  Future<List<GeneratedImageDTO>> getGeneratedImageList({
+    int limit = 10,
+  }) async {
     try {
       final url = Uri.parse("${dotenv.env['FLASK_URL']}/read?limit=$limit");
       final response = await http.get(url);
 
       if (response.statusCode == 200) {
         final List<dynamic> decoded = jsonDecode(response.body);
-        return decoded.map((e) {
-          final metadata = GeneratedImageMetadata.fromJson(e);
-          final imageUrl =
-              "${dotenv.env['FLASK_URL']}/images/${metadata.filename}";
-          return GeneratedImage(metadata: metadata, imageUrl: imageUrl);
-        }).toList();
+        return decoded.map((e) => GeneratedImageDTO.fromJson(e)).toList();
       } else {
         print("불러오기 실패: ${response.statusCode}, ${response.body}");
         return [];
@@ -89,5 +90,5 @@ class RemoteApiService {
       print("예외 발생: $e");
       return [];
     } // try - catch
-  } // getGenratedImageList
+  } // getGeneratedImageList
 } // RemoteApiService

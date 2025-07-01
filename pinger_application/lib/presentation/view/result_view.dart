@@ -5,12 +5,19 @@ import '../widget/floating_function_button.dart';
 import '../widget/input_textfield.dart';
 import '../viewmodel/result_viewmodel.dart';
 import '../extension/canvas_dialog_buildContext.dart';
+import '../../domain/models/sketch.dart';
 
 class ResultView extends StatefulWidget {
   final Uint8List imageBytes;
   final String prompt;
+  final List<Sketch> sketches;
 
-  const ResultView({super.key, required this.imageBytes, required this.prompt});
+  const ResultView({
+    super.key,
+    required this.imageBytes,
+    required this.prompt,
+    required this.sketches,
+  });
 
   @override
   State<ResultView> createState() => _ResultViewState();
@@ -48,28 +55,34 @@ class _ResultViewState extends State<ResultView> {
   void _handleStatus(ResultViewModel viewModel) {
     switch (viewModel.status) {
       case SaveStatus.saving:
-        context.showLoadingDialog("Saving image...");
+        if (ModalRoute.of(context)?.isCurrent == true) {
+          context.showLoadingDialog("Saving image...");
+        }
         break;
+
       case SaveStatus.success:
+        Navigator.pop(context); // 다이얼로그 닫기
         context.showStateDialog(
           "Complete",
           "The image was saved successfully",
           () {
             viewModel.resetStatus();
-            Navigator.pop(context);
+            Navigator.pop(context); // 화면 나가기
           },
         );
         break;
+
       case SaveStatus.error:
-        Navigator.popUntil(context, (route) => route.isFirst);
-        context.showStateDialog("Fail", "AI image saved failed.", () {
+        Navigator.pop(context); // 다이얼로그 닫기
+        context.showStateDialog("Fail", "AI image save failed.", () {
           viewModel.resetStatus();
-          Navigator.pop(context);
+          Navigator.pop(context); // 화면 나가기
         });
         break;
+
       default:
         break;
-    } // switch
+    }
   } // _handleStatus
 
   PreferredSizeWidget? _stateBottom(ResultViewModel viewModel) {
@@ -101,6 +114,7 @@ class _ResultViewState extends State<ResultView> {
                 widget.imageBytes,
                 widget.prompt,
                 viewModel.fileName,
+                widget.sketches,
               );
             },
             foregroundColor: Colors.black,
