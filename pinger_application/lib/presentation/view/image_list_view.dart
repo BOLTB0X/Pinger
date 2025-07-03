@@ -27,11 +27,11 @@ class _ImageListViewState extends State<ImageListView> {
           ),
         ],
       ),
-      body: _buildBody(viewModel),
+      body: _listView(viewModel),
     );
   } // build
 
-  Widget _buildBody(ImageListViewModel viewModel) {
+  Widget _listView(ImageListViewModel viewModel) {
     final images = viewModel.images;
     final isLoading = viewModel.isLoading;
 
@@ -51,7 +51,7 @@ class _ImageListViewState extends State<ImageListView> {
           final image = images[index];
           return ListTile(
             leading: CachedNetworkImage(
-              imageUrl: image.imageUrl,
+              imageUrl: '${viewModel.url}/${image.imageUrl}',
               placeholder: (context, url) =>
                   const CircularProgressIndicator(strokeWidth: 2),
               errorWidget: (context, url, error) => const Icon(Icons.error),
@@ -63,10 +63,11 @@ class _ImageListViewState extends State<ImageListView> {
             subtitle: Text(image.prompt),
             onTap: () {
               // TODO: 상세 페이지 이동
+              print('${viewModel.url}${image.imageUrl}');
             },
           );
         },
       ),
     );
-  } // _buildBody
+  } // _listView
 } // _ImageListViewState

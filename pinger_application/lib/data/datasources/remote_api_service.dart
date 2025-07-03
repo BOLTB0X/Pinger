@@ -5,12 +5,17 @@ import 'dart:typed_data';
 import 'dart:core';
 import '../models/generated_image_dto.dart';
 import '../models/sketch_dto.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 class RemoteApiService {
+  final String baseUrl;
+
+  RemoteApiService({required this.baseUrl});
+
+  Uri _uri(String path) => Uri.parse('$baseUrl$path');
+
   Future<Uint8List?> postImage(String base64Sketch, String prompt) async {
     try {
-      final apiUrl = Uri.parse("${dotenv.env['FLASK_URL']}/generate");
+      final apiUrl = _uri("/generate");
 
       final response = await http.post(
         apiUrl,
@@ -40,7 +45,7 @@ class RemoteApiService {
     required List<SketchDTO> sketches,
   }) async {
     try {
-      final url = Uri.parse("${dotenv.env['FLASK_URL']}/create");
+      final url = _uri("/create");
 
       final request = http.MultipartRequest('POST', url)
         ..fields['prompt'] = prompt
@@ -76,7 +81,7 @@ class RemoteApiService {
     int limit = 10,
   }) async {
     try {
-      final url = Uri.parse("${dotenv.env['FLASK_URL']}/read?limit=$limit");
+      final url = _uri("/read?limit=$limit");
       final response = await http.get(url);
 
       if (response.statusCode == 200) {

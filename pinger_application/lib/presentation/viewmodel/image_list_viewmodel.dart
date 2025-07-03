@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import '../../domain/models/generated_image.dart';
 import '../../domain/usecases/fetch_image_metadata_list_usecase.dart';
 
@@ -14,9 +15,13 @@ class ImageListViewModel extends ChangeNotifier {
 
   Timer? _timer;
 
+  String _url = "";
+  String get url => _url;
+
   ImageListViewModel({required this.fetchImageListUseCase}) {
     loadImages();
     startAutoRefresh();
+    _url = dotenv.env['FLASK_URL'] ?? 'http://localhost:50';
   } // init
 
   Future<void> loadImages({int limit = 10}) async {

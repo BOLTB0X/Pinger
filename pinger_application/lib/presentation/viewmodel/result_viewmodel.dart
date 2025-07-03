@@ -71,7 +71,7 @@ class ResultViewModel extends ChangeNotifier {
       _status = success ? SaveStatus.success : SaveStatus.error;
     } catch (e, stackTrace) {
       print("Save error: $e");
-      print(stackTrace); // 로그 추적을 위해
+      print(stackTrace);
       _status = SaveStatus.error;
     } finally {
       _isSaving = false;

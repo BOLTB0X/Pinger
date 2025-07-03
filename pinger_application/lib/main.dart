@@ -21,7 +21,9 @@ void main() async {
   await dotenv.load(fileName: ".env");
   HttpOverrides.global = HttpOverridesService();
 
-  final remoteApiService = RemoteApiService();
+  final remoteApiService = RemoteApiService(
+    baseUrl: dotenv.env['FLASK_URL'] ?? 'http://localhost:5000',
+  );
   final imageRepository = ImageRepositoryImpl(remoteApiService);
   final generateImageUseCase = GenerateImageUseCase(
     repository: imageRepository,
