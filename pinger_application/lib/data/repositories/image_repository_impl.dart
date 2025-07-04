@@ -16,7 +16,7 @@ class ImageRepositoryImpl implements ImageRepository {
     String base64Sketch,
     String prompt,
   ) async {
-    final result = await apiService.postImage(base64Sketch, prompt);
+    final result = await apiService.postGenerateImage(base64Sketch, prompt);
     return result != null ? GenerativeImage(result) : null;
   } // generateFromSketch
 

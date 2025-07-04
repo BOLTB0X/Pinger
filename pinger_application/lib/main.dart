@@ -7,10 +7,12 @@ import 'package:provider/provider.dart';
 import 'core/network/httpoverrides_service.dart';
 import 'data/repositories/image_repository_impl.dart';
 import 'data/datasources/remote_api_service.dart';
+
 import 'domain/usecases/generate_image_usecase.dart';
 import 'domain/usecases/save_image_usecase.dart';
 import 'domain/usecases/fetch_image_metadata_list_usecase.dart';
 import 'domain/entities/drawing_manager.dart';
+
 import 'presentation/view/canvas_view.dart';
 import 'presentation/viewmodel/canvas_viewmodel.dart';
 import 'presentation/viewmodel/result_viewmodel.dart';
@@ -21,8 +23,12 @@ void main() async {
   await dotenv.load(fileName: ".env");
   HttpOverrides.global = HttpOverridesService();
 
+  final colabURL = dotenv.env['COLAB_URL'];
+  final flaskURL = dotenv.env['FLASK_URL'];
+
   final remoteApiService = RemoteApiService(
-    baseUrl: dotenv.env['FLASK_URL'] ?? 'http://localhost:5000',
+    colabURL: colabURL ?? 'http://localhost:5000',
+    flaskURL: flaskURL ?? 'http://localhost:5000',
   );
   final imageRepository = ImageRepositoryImpl(remoteApiService);
   final generateImageUseCase = GenerateImageUseCase(

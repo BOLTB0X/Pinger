@@ -51,7 +51,7 @@ class _ImageListViewState extends State<ImageListView> {
           final image = images[index];
           return ListTile(
             leading: CachedNetworkImage(
-              imageUrl: '${viewModel.url}/${image.imageUrl}',
+              imageUrl: '${image.imageUrl}',
               placeholder: (context, url) =>
                   const CircularProgressIndicator(strokeWidth: 2),
               errorWidget: (context, url, error) => const Icon(Icons.error),

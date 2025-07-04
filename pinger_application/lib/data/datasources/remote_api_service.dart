@@ -7,15 +7,20 @@ import '../models/generated_image_dto.dart';
 import '../models/sketch_dto.dart';
 
 class RemoteApiService {
-  final String baseUrl;
+  final String colabURL;
+  final String flaskURL;
 
-  RemoteApiService({required this.baseUrl});
+  RemoteApiService({required this.colabURL, required this.flaskURL});
 
-  Uri _uri(String path) => Uri.parse('$baseUrl$path');
+  Uri _colabURL(String path) => Uri.parse('$colabURL$path');
+  Uri _flaskURL(String path) => Uri.parse('$flaskURL$path');
 
-  Future<Uint8List?> postImage(String base64Sketch, String prompt) async {
+  Future<Uint8List?> postGenerateImage(
+    String base64Sketch,
+    String prompt,
+  ) async {
     try {
-      final apiUrl = _uri("/generate");
+      final apiUrl = _colabURL("/generate");
 
       final response = await http.post(
         apiUrl,
@@ -45,7 +50,7 @@ class RemoteApiService {
     required List<SketchDTO> sketches,
   }) async {
     try {
-      final url = _uri("/create");
+      final url = _flaskURL("/create");
 
       final request = http.MultipartRequest('POST', url)
         ..fields['prompt'] = prompt
@@ -81,7 +86,7 @@ class RemoteApiService {
     int limit = 10,
   }) async {
     try {
-      final url = _uri("/read?limit=$limit");
+      final url = _flaskURL("/read?limit=$limit");
       final response = await http.get(url);
 
       if (response.statusCode == 200) {
