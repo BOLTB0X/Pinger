@@ -7,7 +7,9 @@ from dotenv import load_dotenv
 
 # Firebase 관련 임포트
 import firebase_admin
-from firebase_admin import credentials, firestore, initialize_app
+from firebase_admin import credentials, initialize_app
+from firebase_admin import firestore
+from google.cloud.firestore import Query
 
 load_dotenv()
 app = Flask(__name__)
@@ -44,7 +46,8 @@ def create():
     print(">>> /create 엔드포인트에 POST 요청 수신됨!")
 
     if not db:
-        return jsonify({"error": "Firebase is not initialized."}), 500
+        return jsonify({"error": "Firebase 초기화 실패"}), 500
+
     image = request.files.get("image")
     prompt = request.form.get("prompt")
     filename = request.form.get("filename")
@@ -56,15 +59,18 @@ def create():
         image_path = os.path.join(UPLOAD_FOLDER, filename + ".png")
         image.save(image_path)
 
+        base_url = request.host_url.rstrip('/')
+        image_url = f"{base_url}/images/{filename}.png"
+
         doc_ref = db.collection("generated_images").document()
         doc_ref.set({
             "prompt": prompt,
             "filename": filename + ".png",
-            "image_url": f"http://127.0.0.1:5000/images/{filename}.png",
+            "image_url": image_url,
             "timestamp": datetime.now().isoformat()
         })
 
-        return jsonify({"message": "Saved successfully", "image_url": f"/images/{filename}.png"}), 201
+        return jsonify({"message": "Saved successfully", "image_url": image_url}), 201
     except Exception as e:
         print(f"Error in create function: {e}")
         return jsonify({"error": str(e)}), 500
@@ -78,14 +84,19 @@ def read():
     try:
         limit = int(request.args.get("limit", 10))
         docs = db.collection("generated_images") \
+                 .order_by("timestamp", direction=firestore.Query.DESCENDING) \
                  .limit(limit) \
                  .stream()
 
+        base_url = request.host_url.rstrip('/')
         result = []
+
         for doc in docs:
             data = doc.to_dict()
             data["id"] = doc.id
-            data["image_url"] = f"/images/{data['filename']}"
+
+            # 실제 URL 생성
+            data["image_url"] = f"{base_url}/images/{data['filename']}"
             result.append(data)
 
         return jsonify(result), 200
