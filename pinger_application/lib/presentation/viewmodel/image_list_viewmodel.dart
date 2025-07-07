@@ -26,6 +26,7 @@ class ImageListViewModel extends ChangeNotifier {
 
   Future<void> loadImages({int limit = 10}) async {
     _isLoading = true;
+
     notifyListeners();
 
     _images = await fetchImageListUseCase(limit: limit);
@@ -34,7 +35,7 @@ class ImageListViewModel extends ChangeNotifier {
     notifyListeners();
   } // loadImages
 
-  void startAutoRefresh({Duration interval = const Duration(seconds: 30)}) {
+  void startAutoRefresh({Duration interval = const Duration(seconds: 180)}) {
     _timer?.cancel();
     _timer = Timer.periodic(interval, (_) async {
       await loadImages();

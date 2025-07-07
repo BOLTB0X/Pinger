@@ -78,6 +78,8 @@ def create():
 
 @app.route("/read", methods=["GET"])
 def read():
+    print(">>> /read 엔드포인트에 GET 요청 수신됨!")
+
     if not db:
         return jsonify({"error": "Firebase is not initialized."}), 500
 

@@ -2,6 +2,16 @@
 
 ![초수위화](https://3.gall-gif.com/tdgall/files/attach/images/82/310/776/057/a1fdf49a195cd1851c2472dedf2f0a6c.gif)
 
+
+| 구성 요소       | 기술 스택                                | 설명                                      |
+|----------------|------------------------------------------|-------------------------------------------|
+| Client (App)   | Flutter                                  | 사용자 UI 및 앱 동작                      |
+| Server   | Python + Flask (로컬 서버)               | 이미지 저장, 메타데이터 저장, API 제공    |
+| AI 모델 서버   | Google Colab + Hugging Face              | 스케치 기반 이미지 생성 (`ControlNet`)     |
+| DB             | Firebase Firestore                       | 이미지 메타데이터 관리                    |
+| 이미지 저장소  | 로컬 디렉토리 (`/images`), Google Drive | 생성 이미지 저장소                        |
+
+
 <p align="center">
   <table style="width:100%; text-align:center; border-spacing:20px;">
     <tr>
