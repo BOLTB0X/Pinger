@@ -17,14 +17,14 @@
     <tr>
       <td style="text-align:center; vertical-align:middle;">
         <p align="center">
-        <img src="https://github.com/BOLTB0X/Pinger/blob/main/Img/%EC%8A%A4%EC%BC%80%EC%B9%98%20-%20%ED%85%8C%EC%8A%A4%ED%8A%B8.gif?raw=true" 
+        <img src="https://github.com/BOLTB0X/Pinger/blob/main/Img/%EB%8B%88%EC%B2%B4%20%EB%93%9C%EB%A1%9C%EC%9E%89.gif?raw=true" 
              alt="image 1" 
              style="width:200px; height:400px; object-fit:contain; border:1px solid #ddd; border-radius:4px;"/>
         </p>
       </td>
       <td style="text-align:center; vertical-align:middle;">
         <p align="center">
-        <img src="https://github.com/BOLTB0X/Pinger/blob/main/Img/%EC%8A%A4%EC%BC%80%EC%B9%98%20-%20%ED%85%8C%EC%8A%A4%ED%8A%B82.gif?raw=true" 
+        <img src="https://github.com/BOLTB0X/Pinger/blob/main/Img/%EC%96%B8%EB%8D%94%EB%8D%94%EB%B6%80%EC%B2%98-%EB%93%9C%EB%A1%9C%EC%9E%89.gif?raw=true" 
              alt="image 2" 
              style="width:200px; height:400px; object-fit:contain; border:1px solid #ddd; border-radius:4px;"/>
         </p>
@@ -33,12 +33,12 @@
     <tr>
       <td style="text-align:center; font-size:14px; font-weight:bold;">
       <p align="center">
-        그리기
+        ex 그리기 1
       </p>
       </td>
       <td style="text-align:center; font-size:14px; font-weight:bold;">
       <p align="center">
-        변환
+        ex 그리기 2
       </p>
       </td>
     </tr>
@@ -50,14 +50,14 @@
     <tr>
       <td style="text-align:center; vertical-align:middle;">
         <p align="center">
-        <img src="https://github.com/BOLTB0X/Pinger/blob/main/Img/%ED%8E%AD%EA%B7%84%20-%201.gif?raw=true" 
+        <img src="https://github.com/BOLTB0X/Pinger/blob/main/Img/%EB%8B%88%EC%B2%B4%20%EB%B3%80%ED%99%98%20%EB%B0%8F%20%EC%A0%80%EC%9E%A5.gif?raw=true" 
              alt="image 1" 
              style="width:200px; height:400px; object-fit:contain; border:1px solid #ddd; border-radius:4px;"/>
         </p>
       </td>
       <td style="text-align:center; vertical-align:middle;">
         <p align="center">
-        <img src="https://github.com/BOLTB0X/Pinger/blob/main/Img/%ED%8E%AD%EA%B7%84%20-%202.gif?raw=true" 
+        <img src="https://github.com/BOLTB0X/Pinger/blob/main/Img/%EC%96%B8%EB%8D%94%EB%8D%94%EB%B6%80%EC%B2%98-%EA%B2%B0%EA%B3%BC%20%EB%B0%8F%20%EC%A0%80%EC%9E%A5.gif?raw=true" 
              alt="image 2" 
              style="width:200px; height:400px; object-fit:contain; border:1px solid #ddd; border-radius:4px;"/>
         </p>
@@ -66,12 +66,45 @@
     <tr>
       <td style="text-align:center; font-size:14px; font-weight:bold;">
       <p align="center">
-        프롬프트
+        결과 반환 및 저장 1
       </p>
       </td>
       <td style="text-align:center; font-size:14px; font-weight:bold;">
       <p align="center">
-        저장
+        결과 반환 및 저장 2
+      </p>
+      </td>
+    </tr>
+  </table>
+</p>
+
+<p align="center">
+  <table style="width:100%; text-align:center; border-spacing:20px;">
+    <tr>
+      <td style="text-align:center; vertical-align:middle;">
+        <p align="center">
+        <img src="https://raw.githubusercontent.com/BOLTB0X/Pinger/refs/heads/main/Img/%ED%8E%AD%EA%B7%84%20-%201.gif" 
+             alt="image 1" 
+             style="width:200px; height:400px; object-fit:contain; border:1px solid #ddd; border-radius:4px;"/>
+        </p>
+      </td>
+      <td style="text-align:center; vertical-align:middle;">
+        <p align="center">
+        <img src="https://github.com/BOLTB0X/Pinger/blob/main/Img/%EB%A6%AC%EC%8A%A4%ED%8A%B8%EB%B7%B0.jpg?raw=true" 
+             alt="image 2" 
+             style="width:200px; height:400px; object-fit:contain; border:1px solid #ddd; border-radius:4px;"/>
+        </p>
+      </td>
+    </tr>
+    <tr>
+      <td style="text-align:center; font-size:14px; font-weight:bold;">
+      <p align="center">
+        프롬프트 입력
+      </p>
+      </td>
+      <td style="text-align:center; font-size:14px; font-weight:bold;">
+      <p align="center">
+        불러오기
       </p>
       </td>
     </tr>
