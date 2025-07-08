@@ -300,4 +300,39 @@ doc/api/
 # dotenv environment variables file
 .env
 
+# Python bytecode
+__pycache__/
+*.py[cod]
+*.so
+*.egg
+*.egg-info/
+dist/
+build/
+
+# 환경 설정 파일
+.env
+*.env
+*.sqlite3
+*.db
+*.log
+
+# 가상환경 (venv, env)
+.venv/
+venv/
+ENV/
+env/
+
+# PyCharm
+.idea/
+
+# VSCode
+.vscode/
+
+# Flask 프로젝트의 캐시 파일
+instance/
+*.pyo
+
+# Jupyter 등 기타
+.ipynb_checkpoints/
+
 # End of https://www.toptal.com/developers/gitignore/api/flutter,windows,macos,android,swift,git

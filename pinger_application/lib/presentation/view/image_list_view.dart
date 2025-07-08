@@ -54,7 +54,10 @@ class _ImageListViewState extends State<ImageListView> {
               imageUrl: '${image.imageUrl}',
               placeholder: (context, url) =>
                   const CircularProgressIndicator(strokeWidth: 2),
-              errorWidget: (context, url, error) => const Icon(Icons.error),
+              errorWidget: (context, url, error) {
+                CachedNetworkImage.evictFromCache(url);
+                return const Icon(Icons.error);
+              },
               width: 48,
               height: 48,
               fit: BoxFit.cover,
