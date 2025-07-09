@@ -3,9 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import '../../domain/models/generated_image.dart';
 import '../../domain/usecases/fetch_image_metadata_list_usecase.dart';
+import '../../domain/usecases/delete_image_usecase.dart';
 
 class ImageListViewModel extends ChangeNotifier {
   final FetchImageMetadataListUseCase fetchImageListUseCase;
+  final DeleteImageUseCase deleteImageUseCase;
 
   List<GeneratedImage> _images = [];
   List<GeneratedImage> get images => _images;
@@ -18,7 +20,10 @@ class ImageListViewModel extends ChangeNotifier {
   String _url = "";
   String get url => _url;
 
-  ImageListViewModel({required this.fetchImageListUseCase}) {
+  ImageListViewModel({
+    required this.fetchImageListUseCase,
+    required this.deleteImageUseCase,
+  }) {
     loadImages();
     startAutoRefresh();
     _url = dotenv.env['FLASK_URL'] ?? 'http://localhost:50';
@@ -34,6 +39,16 @@ class ImageListViewModel extends ChangeNotifier {
     _isLoading = false;
     notifyListeners();
   } // loadImages
+
+  Future<bool> deleteImage(String filename) async {
+    final result = await deleteImageUseCase(filename);
+    if (result) {
+      _images.removeWhere((img) => img.filename == filename);
+      notifyListeners();
+      return true;
+    }
+    return false;
+  } // deleteImage
 
   void startAutoRefresh({Duration interval = const Duration(seconds: 180)}) {
     _timer?.cancel();

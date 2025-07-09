@@ -40,4 +40,9 @@ class ImageRepositoryImpl implements ImageRepository {
     final dtoList = await apiService.getGeneratedImageList(limit: limit);
     return dtoList.map((dto) => dto.toDomain()).toList();
   } // fetchGeneratedImageList
+
+  @override
+  Future<bool> deleteImage(String filename) {
+    return apiService.deleteImage(filename);
+  } // deleteImage
 } // ImageRepositoryImpl

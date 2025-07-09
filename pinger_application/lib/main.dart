@@ -11,6 +11,7 @@ import 'data/datasources/remote_api_service.dart';
 import 'domain/usecases/generate_image_usecase.dart';
 import 'domain/usecases/save_image_usecase.dart';
 import 'domain/usecases/fetch_image_metadata_list_usecase.dart';
+import 'domain/usecases/delete_image_usecase.dart';
 import 'domain/entities/drawing_manager.dart';
 
 import 'presentation/view/canvas_view.dart';
@@ -38,6 +39,7 @@ void main() async {
   final fetchImageMetadataListUseCase = FetchImageMetadataListUseCase(
     repository: imageRepository,
   );
+  final deleteImageUseCase = DeleteImageUseCase(repository: imageRepository);
 
   runApp(
     MultiProvider(
@@ -59,6 +61,7 @@ void main() async {
         ChangeNotifierProvider(
           create: (context) => ImageListViewModel(
             fetchImageListUseCase: fetchImageMetadataListUseCase,
+            deleteImageUseCase: deleteImageUseCase,
           ),
         ),
       ],

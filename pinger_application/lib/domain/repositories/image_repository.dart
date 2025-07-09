@@ -19,4 +19,6 @@ abstract class ImageRepository {
   Future<List<GeneratedImage>> fetchGeneratedImageList({
     int limit = 10,
   }); // fetchGeneratedImageList
+
+  Future<bool> deleteImage(String filename);
 } // ImageRepository

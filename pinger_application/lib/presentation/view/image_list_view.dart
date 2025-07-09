@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:pinger_application/presentation/extension/canvas_dialog_buildContext.dart';
 import 'package:provider/provider.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import '../../domain/models/generated_image.dart';
 import '../viewmodel/image_list_viewmodel.dart';
 
 class ImageListView extends StatefulWidget {
@@ -27,11 +29,11 @@ class _ImageListViewState extends State<ImageListView> {
           ),
         ],
       ),
-      body: _listView(viewModel),
+      body: _buildListView(viewModel),
     );
   } // build
 
-  Widget _listView(ImageListViewModel viewModel) {
+  Widget _buildListView(ImageListViewModel viewModel) {
     final images = viewModel.images;
     final isLoading = viewModel.isLoading;
 
@@ -48,29 +50,79 @@ class _ImageListViewState extends State<ImageListView> {
       child: ListView.builder(
         itemCount: images.length,
         itemBuilder: (context, index) {
-          final image = images[index];
-          return ListTile(
-            leading: CachedNetworkImage(
-              imageUrl: '${image.imageUrl}',
-              placeholder: (context, url) =>
-                  const CircularProgressIndicator(strokeWidth: 2),
-              errorWidget: (context, url, error) {
-                CachedNetworkImage.evictFromCache(url);
-                return const Icon(Icons.error);
-              },
-              width: 48,
-              height: 48,
-              fit: BoxFit.cover,
-            ),
-            title: Text(image.filename),
-            subtitle: Text(image.prompt),
-            onTap: () {
-              // TODO: 상세 페이지 이동
-              print('${viewModel.url}${image.imageUrl}');
-            },
-          );
+          return _buildImageTile(context, viewModel, images[index]);
         },
       ),
     );
-  } // _listView
+  } // _buildListView
+
+  Widget _buildImageTile(
+    BuildContext context,
+    ImageListViewModel viewModel,
+    GeneratedImage image,
+  ) {
+    return ListTile(
+      leading: CachedNetworkImage(
+        imageUrl: '${viewModel.url}${image.imageUrl}',
+        placeholder: (context, url) =>
+            const CircularProgressIndicator(strokeWidth: 2),
+        errorWidget: (context, url, error) {
+          CachedNetworkImage.evictFromCache(url);
+          return const Icon(Icons.error);
+        },
+        width: 48,
+        height: 48,
+        fit: BoxFit.cover,
+      ),
+      title: Text(image.filename),
+      subtitle: Text(image.prompt),
+      trailing: IconButton(
+        icon: const Icon(Icons.delete, color: Colors.red),
+        onPressed: () => _confirmDelete(context, viewModel, image),
+      ),
+      onTap: () {
+        print('${viewModel.url}${image.imageUrl}');
+        // TODO: 상세 페이지 이동
+      },
+    );
+  } // _buildImageTile
+
+  Future<void> _confirmDelete(
+    BuildContext context,
+    ImageListViewModel viewModel,
+    GeneratedImage image,
+  ) async {
+    final confirm = await showDialog<bool>(
+      context: context,
+      builder: (_) => AlertDialog(
+        title: const Text('Confirm deletion'),
+        content: Text('Are you sure you want to delete "${image.filename}"?'),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context, false),
+            child: const Text('Cancel'),
+          ),
+          TextButton(
+            onPressed: () => Navigator.pop(context, true),
+            child: const Text('Remove'),
+          ),
+        ],
+      ),
+    );
+
+    if (confirm == true) {
+      final success = await viewModel.deleteImage(image.filename);
+      if (success) {
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(const SnackBar(content: Text('success')));
+      } else {
+        context.showStateDialog(
+          "Delete failed",
+          "Failed to delete the image. Please try again later.",
+          () => Navigator.pop(context),
+        );
+      }
+    }
+  } // _confirmDelete
 } // _ImageListViewState

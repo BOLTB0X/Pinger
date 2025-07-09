@@ -101,4 +101,24 @@ class RemoteApiService {
       return [];
     } // try - catch
   } // getGeneratedImageList
+
+  Future<bool> deleteImage(String filename) async {
+    try {
+      final response = await http.delete(
+        Uri.parse('$flaskURL/delete/$filename'),
+      );
+
+      if (response.statusCode == 200) {
+        return true;
+      } else {
+        print(
+          'Failed to delete image: ${response.statusCode} ${response.body}',
+        );
+        return false;
+      }
+    } catch (e, stack) {
+      print('Exception during deleteImage: $e\n$stack');
+      return false;
+    } // try - catch
+  } // deleteImage
 } // RemoteApiService
