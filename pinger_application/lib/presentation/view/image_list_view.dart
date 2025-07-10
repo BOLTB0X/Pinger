@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:pinger_application/presentation/extension/canvas_dialog_buildContext.dart';
 import 'package:provider/provider.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import '../../domain/models/generated_image.dart';
 import '../viewmodel/image_list_viewmodel.dart';
+import '../extension/canvas_dialog_buildContext.dart';
 
 class ImageListView extends StatefulWidget {
   const ImageListView({super.key});
@@ -63,7 +63,7 @@ class _ImageListViewState extends State<ImageListView> {
   ) {
     return ListTile(
       leading: CachedNetworkImage(
-        imageUrl: '${viewModel.url}${image.imageUrl}',
+        imageUrl: '${viewModel.url}/${image.imageUrl}',
         placeholder: (context, url) =>
             const CircularProgressIndicator(strokeWidth: 2),
         errorWidget: (context, url, error) {
@@ -77,7 +77,7 @@ class _ImageListViewState extends State<ImageListView> {
       title: Text(image.filename),
       subtitle: Text(image.prompt),
       trailing: IconButton(
-        icon: const Icon(Icons.delete, color: Colors.red),
+        icon: const Icon(Icons.delete, color: Colors.blue),
         onPressed: () => _confirmDelete(context, viewModel, image),
       ),
       onTap: () {
@@ -92,22 +92,9 @@ class _ImageListViewState extends State<ImageListView> {
     ImageListViewModel viewModel,
     GeneratedImage image,
   ) async {
-    final confirm = await showDialog<bool>(
-      context: context,
-      builder: (_) => AlertDialog(
-        title: const Text('Confirm deletion'),
-        content: Text('Are you sure you want to delete "${image.filename}"?'),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(context, false),
-            child: const Text('Cancel'),
-          ),
-          TextButton(
-            onPressed: () => Navigator.pop(context, true),
-            child: const Text('Remove'),
-          ),
-        ],
-      ),
+    final confirm = await context.showConfirmDialog(
+      title: 'Confirm deletion',
+      content: 'Are you sure you want to delete "${image.filename}"?',
     );
 
     if (confirm == true) {

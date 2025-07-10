@@ -35,4 +35,29 @@ extension CanvasDialogBuildContext on BuildContext {
           GeneratedImageBottomSheet(imageBytes: imageBytes, onClose: onClose),
     );
   } // showGeneratedImageBottomSheet
+
+  Future<bool?> showConfirmDialog({
+    required String title,
+    required String content,
+    String cancelText = 'Cancel',
+    String confirmText = 'Delete',
+  }) {
+    return showDialog<bool>(
+      context: this,
+      builder: (_) => AlertDialog(
+        title: Text(title),
+        content: Text(content),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(this, false),
+            child: Text(cancelText),
+          ),
+          TextButton(
+            onPressed: () => Navigator.pop(this, true),
+            child: Text(confirmText),
+          ),
+        ],
+      ),
+    );
+  } // showConfirmDialog
 } // CanvasDialogBuildContext

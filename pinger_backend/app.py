@@ -60,7 +60,7 @@ def create():
         image.save(image_path)
 
         base_url = request.host_url.rstrip('/')
-        image_url = f"{base_url}/images/{filename}.png"
+        image_url = f"images/{filename}.png"
 
         doc_ref = db.collection("generated_images").document()
         doc_ref.set({
@@ -97,8 +97,7 @@ def read():
             data = doc.to_dict()
             data["id"] = doc.id
 
-            # 실제 URL 생성
-            data["image_url"] = f"{base_url}/images/{data['filename']}"
+            data["image_url"] = f"images/{data['filename']}"
             result.append(data)
 
         return jsonify(result), 200
@@ -111,6 +110,42 @@ def read():
 def serve_image(filename):
     return send_from_directory(UPLOAD_FOLDER, filename)
 ## serve_image
+
+@app.route("/delete/<filename>", methods=["DELETE"])
+def delete(filename):
+    print(f">>> /delete/{filename} 엔드포인트에 DELETE 요청 수신됨!")
+
+    if not db:
+        return jsonify({"error": "Firebase is not initialized."}), 500
+
+    try:
+        filename_with_ext = filename if filename.endswith(".png") else filename + ".png"
+        image_path = os.path.join(UPLOAD_FOLDER, filename_with_ext)
+
+        # 로컬
+        if os.path.exists(image_path):
+            os.remove(image_path)
+        else:
+            print(f"파일 없음: {image_path}")
+
+        # Firestore
+        docs = db.collection("generated_images") \
+                 .where("filename", "==", filename_with_ext) \
+                 .stream()
+
+        deleted = False
+        for doc in docs:
+            doc.reference.delete()
+            deleted = True
+
+        if not deleted:
+            return jsonify({"message": "No document found with that filename"}), 404
+
+        return jsonify({"message": "Image and metadata deleted successfully"}), 200
+    except Exception as e:
+        print(f"Error in delete function: {e}")
+        return jsonify({"error": str(e)}), 500
+## delete
 
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0', port=5000)
