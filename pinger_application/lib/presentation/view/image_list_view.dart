@@ -95,6 +95,7 @@ class _ImageListViewState extends State<ImageListView> {
     final confirm = await context.showConfirmDialog(
       title: 'Confirm deletion',
       content: 'Are you sure you want to delete "${image.filename}"?',
+      confirmText: "Delete",
     );
 
     if (confirm == true) {

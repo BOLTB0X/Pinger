@@ -39,22 +39,23 @@ extension CanvasDialogBuildContext on BuildContext {
   Future<bool?> showConfirmDialog({
     required String title,
     required String content,
-    String cancelText = 'Cancel',
-    String confirmText = 'Delete',
+    String cancelText = "Cancel",
+    required String confirmText,
   }) {
     return showDialog<bool>(
       context: this,
       builder: (_) => AlertDialog(
-        title: Text(title),
+        backgroundColor: Colors.white,
+        title: Text(title, style: TextStyle(color: Colors.blue)),
         content: Text(content),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(this, false),
-            child: Text(cancelText),
+            child: Text(cancelText, style: TextStyle(color: Colors.blueGrey)),
           ),
           TextButton(
             onPressed: () => Navigator.pop(this, true),
-            child: Text(confirmText),
+            child: Text(confirmText, style: TextStyle(color: Colors.blue)),
           ),
         ],
       ),

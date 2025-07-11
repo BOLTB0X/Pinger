@@ -59,7 +59,10 @@ class _CanvasViewState extends State<CanvasView>
       ),
       body: Stack(
         children: [
-          DrawingCanvas(repaintKey: _canvasKey),
+          DrawingCanvas(
+            repaintKey: _canvasKey,
+            isDrawingEnabled: !viewModel.isInputModeActive,
+          ),
           _buildEditBar(viewModel),
         ],
       ),
@@ -68,6 +71,21 @@ class _CanvasViewState extends State<CanvasView>
 
   void _handleStatus(CanvasViewModel viewModel) {
     switch (viewModel.status) {
+      case CanvasStatus.preparing:
+        viewModel.resetStatus();
+        context
+            .showConfirmDialog(
+              title: "Generative image",
+              content:
+                  "Would you like to generate AI images with the prompt you entered?",
+              confirmText: "Generative",
+            )
+            .then((confirmed) {
+              if (confirmed == true) {
+                viewModel.fetchGeneratedImage(_canvasKey);
+              }
+            });
+        break;
       case CanvasStatus.loading:
         context.showLoadingDialog("Creating image...");
         break;
@@ -109,9 +127,12 @@ class _CanvasViewState extends State<CanvasView>
   } // _handleStatus
 
   List<Widget> _editActions(CanvasViewModel viewModel) {
+    final isInputModeActive = viewModel.isInputModeActive;
+    final isEditBarVisible = viewModel.showEditBar;
+
     return [
       IconActionButton(
-        icon: viewModel.showEditBar ? Icons.close : Icons.settings,
+        icon: isEditBarVisible ? Icons.close : Icons.settings,
         tooltip: '편집 모드',
         onPressed: () {
           setState(() {
@@ -123,7 +144,7 @@ class _CanvasViewState extends State<CanvasView>
             }
           });
         },
-        isEnabled: true,
+        isEnabled: !isInputModeActive,
       ),
 
       IconActionButton(
@@ -132,14 +153,14 @@ class _CanvasViewState extends State<CanvasView>
         onPressed: () {
           viewModel.moveToMyList();
         },
-        isEnabled: true,
+        isEnabled: !isInputModeActive,
       ),
 
       IconActionButton(
         icon: Icons.input,
         tooltip: '이미지 생성',
-        onPressed: () async {
-          await viewModel.fetchGeneratedImage(_canvasKey);
+        onPressed: () {
+          viewModel.prepareGeneration();
         },
         isEnabled: !viewModel.showEditBar,
       ),
@@ -157,9 +178,27 @@ class _CanvasViewState extends State<CanvasView>
         onChanged: viewModel.updatePrompt,
       );
     } else if (viewModel.showSlider) {
-      return StrokeSlider(
-        strokeWidth: viewModel.strokeWidth,
-        onChanged: viewModel.updateStrokeWidth,
+      return PreferredSize(
+        preferredSize: const Size.fromHeight(100),
+        child: Column(
+          children: [
+            Container(
+              // 미리보기
+              width: 300,
+              height: viewModel.strokeWidth.clamp(1.0, 30.0),
+              decoration: BoxDecoration(
+                color: Colors.black,
+                borderRadius: BorderRadius.circular(8),
+              ),
+              margin: const EdgeInsets.only(top: 8, bottom: 4),
+            ),
+
+            StrokeSlider(
+              strokeWidth: viewModel.strokeWidth,
+              onChanged: viewModel.updateStrokeWidth,
+            ),
+          ],
+        ),
       );
     }
     return null;

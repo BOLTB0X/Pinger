@@ -4,7 +4,7 @@ import '../../domain/usecases/generate_image_usecase.dart';
 import '../../domain/entities/drawing_manager.dart';
 import '../../core/utils/image_utils.dart';
 
-enum CanvasStatus { idle, my, loading, success, error }
+enum CanvasStatus { idle, my, preparing, loading, success, error }
 
 class CanvasViewModel extends ChangeNotifier {
   DrawingManager drawingManager;
@@ -107,6 +107,11 @@ class CanvasViewModel extends ChangeNotifier {
     drawingManager.strokeWidth = _strokeWidth;
     notifyListeners();
   } // updateStrokeWidth
+
+  void prepareGeneration() {
+    status = CanvasStatus.preparing;
+    notifyListeners();
+  } // prepareGeneration
 
   Future<void> fetchGeneratedImage(GlobalKey key) async {
     status = CanvasStatus.loading;

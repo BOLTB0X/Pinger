@@ -5,8 +5,13 @@ import 'drawing_painter.dart';
 
 class DrawingCanvas extends StatelessWidget {
   final GlobalKey repaintKey;
+  final bool isDrawingEnabled;
 
-  const DrawingCanvas({super.key, required this.repaintKey});
+  const DrawingCanvas({
+    super.key,
+    required this.repaintKey,
+    this.isDrawingEnabled = true,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -18,14 +23,14 @@ class DrawingCanvas extends StatelessWidget {
         onPanStart: (details) {
           RenderBox box = context.findRenderObject() as RenderBox;
           Offset point = box.globalToLocal(details.globalPosition);
-          manager.startSketch(point);
+          isDrawingEnabled ? manager.startSketch(point) : null;
         },
         onPanUpdate: (details) {
           RenderBox box = context.findRenderObject() as RenderBox;
           Offset point = box.globalToLocal(details.globalPosition);
-          manager.addPoint(point);
+          isDrawingEnabled ? manager.addPoint(point) : null;
         },
-        onPanEnd: (_) => manager.endSketch(),
+        onPanEnd: (_) => isDrawingEnabled ? manager.endSketch() : null,
         child: Container(
           color: Colors.white,
           child: CustomPaint(
