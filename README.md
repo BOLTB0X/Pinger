@@ -2,6 +2,7 @@
 
 ![초수위화](https://3.gall-gif.com/tdgall/files/attach/images/82/310/776/057/a1fdf49a195cd1851c2472dedf2f0a6c.gif)
 
+## 기술스택
 
 | 구성 요소       | 기술 스택                                | 설명                                      |
 |----------------|------------------------------------------|-------------------------------------------|
@@ -11,6 +12,9 @@
 | DB             | Firebase Firestore                       | 이미지 메타데이터 관리                    |
 | 이미지 저장소  | 로컬 디렉토리 (`/images`), Google Drive | 생성 이미지 저장소                        |
 
+---
+
+## Drawing
 
 <p align="center">
   <table style="width:100%; text-align:center; border-spacing:20px;">
@@ -29,6 +33,13 @@
              style="width:200px; height:400px; object-fit:contain; border:1px solid #ddd; border-radius:4px;"/>
         </p>
       </td>
+      <td style="text-align:center; vertical-align:middle;">
+        <p align="center">
+        <img src="https://github.com/BOLTB0X/Pinger/blob/main/Img/%EC%9D%BC%EB%B0%98-draw.gif?raw=true" 
+             alt="image 2" 
+             style="width:200px; height:400px; object-fit:contain; border:1px solid #ddd; border-radius:4px;"/>
+        </p>
+      </td>
     </tr>
     <tr>
       <td style="text-align:center; font-size:14px; font-weight:bold;">
@@ -41,9 +52,122 @@
         ex 그리기 2
       </p>
       </td>
+      <td style="text-align:center; font-size:14px; font-weight:bold;">
+      <p align="center">
+        ex 그리기 3
+      </p>
+      </td>
     </tr>
   </table>
 </p>
+
+---
+
+## Edit
+
+<p align="center">
+  <table style="width:100%; text-align:center; border-spacing:20px;">
+    <tr>
+      <td style="text-align:center; vertical-align:middle;">
+        <p align="center">
+        <img src="https://github.com/BOLTB0X/Pinger/blob/main/Img/%EA%B7%B8%EB%A6%BC%20%ED%9B%84%20%ED%85%8D%EC%8A%A4%ED%8A%B8%ED%95%84%EB%93%9C%20%ED%99%95%EC%9D%B8.gif?raw=true" 
+             alt="image 1" 
+             style="width:200px; height:400px; object-fit:contain; border:1px solid #ddd; border-radius:4px;"/>
+        </p>
+      </td>
+      <td style="text-align:center; vertical-align:middle;">
+        <p align="center">
+        <img src="https://raw.githubusercontent.com/BOLTB0X/Pinger/refs/heads/main/Img/%ED%8E%AD%EA%B7%84%20-%201.gif" 
+             alt="image 1" 
+             style="width:200px; height:400px; object-fit:contain; border:1px solid #ddd; border-radius:4px;"/>
+        </p>
+      </td>
+      <td style="text-align:center; vertical-align:middle;">
+        <p align="center">
+        <img src="https://github.com/BOLTB0X/Pinger/blob/main/Img/%ED%8E%9C-%EA%B5%B5%EA%B8%B0-%EC%A1%B0%EC%A0%95.gif?raw=true" 
+             alt="image 2" 
+             style="width:200px; height:400px; object-fit:contain; border:1px solid #ddd; border-radius:4px;"/>
+        </p>
+      </td>
+    </tr>
+    <tr>
+      <td style="text-align:center; font-size:14px; font-weight:bold;">
+      <p align="center">
+        프롬프트 입력 1
+      </p>
+      </td>
+      <td style="text-align:center; font-size:14px; font-weight:bold;">
+      <p align="center">
+        프롬프트 입력 2
+      </p>
+      </td>
+      <td style="text-align:center; font-size:14px; font-weight:bold;">
+      <p align="center">
+        펜 굵기
+      </p>
+      </td>
+    </tr>
+  </table>
+</p>
+
+<p align="center">
+  <table style="width:100%; text-align:center; border-spacing:20px;">
+    <tr>
+      <td style="text-align:center; vertical-align:middle;">
+        <p align="center">
+        <img src="https://github.com/BOLTB0X/Pinger/blob/main/Img/undo.gif?raw=true" 
+             alt="image 1" 
+             style="width:180px; height:400px; object-fit:contain; border:1px solid #ddd; border-radius:4px;"/>
+        </p>
+      </td>
+      <td style="text-align:center; vertical-align:middle;">
+        <p align="center">
+        <img src="https://github.com/BOLTB0X/Pinger/blob/main/Img/redo.gif?raw=true" 
+             alt="image 2" 
+             style="width:180px; height:400px; object-fit:contain; border:1px solid #ddd; border-radius:4px;"/>
+        </p>
+      </td>
+      <td style="text-align:center; vertical-align:middle;">
+        <p align="center">
+        <img src="https://github.com/BOLTB0X/Pinger/blob/main/Img/%EC%A7%80%EC%9A%B0%EA%B0%9C.gif?raw=true" 
+             alt="image 2" 
+             style="width:180px; height:400px; object-fit:contain; border:1px solid #ddd; border-radius:4px;"/>
+        </p>
+      </td>
+      <td style="text-align:center; vertical-align:middle;">
+        <p align="center">
+        <img src="https://github.com/BOLTB0X/Pinger/blob/main/Img/%EC%A0%84%EC%B2%B4%EC%82%AD%EC%A0%9C.gif?raw=true" 
+             alt="image 2" 
+             style="width:180px; height:400px; object-fit:contain; border:1px solid #ddd; border-radius:4px;"/>
+        </p>
+      </td>
+    </tr>
+    <tr>
+      <td style="text-align:center; font-size:14px; font-weight:bold;">
+      <p align="center">
+        ⬅
+      </p>
+      </td>
+      <td style="text-align:center; font-size:14px; font-weight:bold;">
+      <p align="center">
+        ➡
+      </p>
+      </td>
+      <td style="text-align:center; font-size:14px; font-weight:bold;">
+      <p align="center">
+        지우개
+      </p>
+      </td>
+      <td style="text-align:center; font-size:14px; font-weight:bold;">
+      <p align="center">
+        전체삭제
+      </p>
+      </td>
+    </tr>
+  </table>
+</p>
+
+## Generate
 
 <p align="center">
   <table style="width:100%; text-align:center; border-spacing:20px;">
@@ -62,6 +186,13 @@
              style="width:200px; height:400px; object-fit:contain; border:1px solid #ddd; border-radius:4px;"/>
         </p>
       </td>
+      <td style="text-align:center; vertical-align:middle;">
+        <p align="center">
+        <img src="https://github.com/BOLTB0X/Pinger/blob/main/Img/%EB%A6%AC%EC%8A%A4%ED%8A%B8%EB%B7%B0.jpg?raw=true" 
+             alt="image 2" 
+             style="width:200px; height:400px; object-fit:contain; border:1px solid #ddd; border-radius:4px;"/>
+        </p>
+      </td>
     </tr>
     <tr>
       <td style="text-align:center; font-size:14px; font-weight:bold;">
@@ -74,37 +205,9 @@
         결과 반환 및 저장 2
       </p>
       </td>
-    </tr>
-  </table>
-</p>
-
-<p align="center">
-  <table style="width:100%; text-align:center; border-spacing:20px;">
-    <tr>
-      <td style="text-align:center; vertical-align:middle;">
-        <p align="center">
-        <img src="https://raw.githubusercontent.com/BOLTB0X/Pinger/refs/heads/main/Img/%ED%8E%AD%EA%B7%84%20-%201.gif" 
-             alt="image 1" 
-             style="width:200px; height:400px; object-fit:contain; border:1px solid #ddd; border-radius:4px;"/>
-        </p>
-      </td>
-      <td style="text-align:center; vertical-align:middle;">
-        <p align="center">
-        <img src="https://github.com/BOLTB0X/Pinger/blob/main/Img/%EB%A6%AC%EC%8A%A4%ED%8A%B8%EB%B7%B0.jpg?raw=true" 
-             alt="image 2" 
-             style="width:200px; height:400px; object-fit:contain; border:1px solid #ddd; border-radius:4px;"/>
-        </p>
-      </td>
-    </tr>
-    <tr>
       <td style="text-align:center; font-size:14px; font-weight:bold;">
       <p align="center">
-        프롬프트 입력
-      </p>
-      </td>
-      <td style="text-align:center; font-size:14px; font-weight:bold;">
-      <p align="center">
-        불러오기
+        list
       </p>
       </td>
     </tr>
