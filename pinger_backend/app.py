@@ -111,37 +111,35 @@ def serve_image(filename):
     return send_from_directory(UPLOAD_FOLDER, filename)
 ## serve_image
 
-@app.route("/delete/<filename>", methods=["DELETE"])
-def delete(filename):
-    print(f">>> /delete/{filename} 엔드포인트에 DELETE 요청 수신됨!")
+@app.route("/delete/<doc_id>", methods=["DELETE"])
+def delete(doc_id):
+    print(f">>> /delete/{doc_id} DELETE 요청 수신됨!")
 
     if not db:
         return jsonify({"error": "Firebase is not initialized."}), 500
 
     try:
-        filename_with_ext = filename if filename.endswith(".png") else filename + ".png"
-        image_path = os.path.join(UPLOAD_FOLDER, filename_with_ext)
+        doc_ref = db.collection("generated_images").document(doc_id)
+        doc = doc_ref.get()
 
-        # 로컬
+        if not doc.exists:
+            return jsonify({"message": "No document found with that doc_id"}), 404
+
+        data = doc.to_dict()
+        filename = data.get("filename")
+        image_path = os.path.join(UPLOAD_FOLDER, filename)
+
+        # 이미지 삭제
         if os.path.exists(image_path):
             os.remove(image_path)
+            print(f"로컬 파일 삭제됨: {image_path}")
         else:
             print(f"파일 없음: {image_path}")
 
-        # Firestore
-        docs = db.collection("generated_images") \
-                 .where("filename", "==", filename_with_ext) \
-                 .stream()
+        # Firestore 삭제
+        doc_ref.delete()
 
-        deleted = False
-        for doc in docs:
-            doc.reference.delete()
-            deleted = True
-
-        if not deleted:
-            return jsonify({"message": "No document found with that filename"}), 404
-
-        return jsonify({"message": "Image and metadata deleted successfully"}), 200
+        return jsonify({"message": "Document and image deleted successfully"}), 200
     except Exception as e:
         print(f"Error in delete function: {e}")
         return jsonify({"error": str(e)}), 500
