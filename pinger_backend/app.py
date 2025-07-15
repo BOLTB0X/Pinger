@@ -44,7 +44,6 @@ def home():
 @app.route("/create", methods=["POST"])
 def create():
     print(">>> /create 엔드포인트에 POST 요청 수신됨!")
-
     if not db:
         return jsonify({"error": "Firebase 초기화 실패"}), 500
 
@@ -59,18 +58,18 @@ def create():
         image_path = os.path.join(UPLOAD_FOLDER, filename + ".png")
         image.save(image_path)
 
-        base_url = request.host_url.rstrip('/')
         image_url = f"images/{filename}.png"
 
         doc_ref = db.collection("generated_images").document()
         doc_ref.set({
+            "doc_id": doc_ref.id,
             "prompt": prompt,
             "filename": filename + ".png",
             "image_url": image_url,
             "timestamp": datetime.now().isoformat()
         })
 
-        return jsonify({"message": "Saved successfully", "image_url": image_url}), 201
+        return jsonify({"message": "Saved successfully", "doc_id": doc_ref.id, "image_url": image_url}), 201
     except Exception as e:
         print(f"Error in create function: {e}")
         return jsonify({"error": str(e)}), 500
@@ -144,6 +143,54 @@ def delete(doc_id):
         print(f"Error in delete function: {e}")
         return jsonify({"error": str(e)}), 500
 ## delete
+
+@app.route("/update/<doc_id>", methods=["PUT"])
+def update(doc_id):
+    print(f">>> /update/{doc_id} PUT 요청 수신됨!")
+    if not db:
+        return jsonify({"error": "Firebase is not initialized."}), 500
+
+    try:
+        doc_ref = db.collection("generated_images").document(doc_id)
+        doc = doc_ref.get()
+
+        if not doc.exists:
+            return jsonify({"message": "No document found with that doc_id"}), 404
+
+        data = doc.to_dict()
+
+        new_filename = request.form.get("filename")
+        if not new_filename:
+            return jsonify({"error": "filename 필드가 필요합니다."}), 400
+
+        # 기존 파일 경로
+        old_filename = data["filename"]
+        image_path_old = os.path.join(UPLOAD_FOLDER, old_filename)
+
+        # 새 파일 경로
+        new_filename_full = new_filename + ".png"
+        image_path_new = os.path.join(UPLOAD_FOLDER, new_filename_full)
+
+        # 로컬 파일 이름 변경
+        if os.path.exists(image_path_old):
+            os.rename(image_path_old, image_path_new)
+            print(f"파일명 변경 완료: {old_filename} -> {new_filename_full}")
+        else:
+            print(f"기존 이미지 없음: {image_path_old}")
+            return jsonify({"error": "로컬 이미지 파일이 존재하지 않습니다."}), 404
+
+        # Firestore 필드 업데이트
+        doc_ref.update({
+            "filename": new_filename_full,
+            "image_url": f"images/{new_filename_full}"
+        })
+
+        return jsonify({"message": "Filename updated successfully"}), 200
+
+    except Exception as e:
+        print(f"Error in update function: {e}")
+        return jsonify({"error": str(e)}), 500
+## update
 
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0', port=5000)
