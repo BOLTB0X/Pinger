@@ -55,16 +55,18 @@ def create():
         return jsonify({"error": "Missing data"}), 400
 
     try:
-        image_path = os.path.join(UPLOAD_FOLDER, filename + ".png")
+        timestamp = int(datetime.now().timestamp() * 1000)
+        fname = f"{filename}_{timestamp}.png"
+        image_path = os.path.join(UPLOAD_FOLDER, fname + ".png")
         image.save(image_path)
 
-        image_url = f"images/{filename}.png"
+        image_url = f"images/{fname}.png"
 
         doc_ref = db.collection("generated_images").document()
         doc_ref.set({
             "doc_id": doc_ref.id,
             "prompt": prompt,
-            "filename": filename + ".png",
+            "filename": fname,
             "image_url": image_url,
             "timestamp": datetime.now().isoformat()
         })
