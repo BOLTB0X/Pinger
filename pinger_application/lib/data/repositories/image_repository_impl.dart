@@ -21,7 +21,7 @@ class ImageRepositoryImpl implements ImageRepository {
   } // generateFromSketch
 
   @override
-  Future<bool> saveGeneratedImage(
+  Future<String?> saveGeneratedImage(
     Uint8List image,
     String prompt,
     String filename,

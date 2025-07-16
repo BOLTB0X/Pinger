@@ -99,7 +99,7 @@ class _ImageListViewState extends State<ImageListView> {
     );
 
     if (confirm == true) {
-      final success = await viewModel.deleteImage(image.filename);
+      final success = await viewModel.deleteImage(image.docId);
       if (success) {
         ScaffoldMessenger.of(
           context,
@@ -111,6 +111,6 @@ class _ImageListViewState extends State<ImageListView> {
           () => Navigator.pop(context),
         );
       }
-    }
+    } // if
   } // _confirmDelete
 } // _ImageListViewState

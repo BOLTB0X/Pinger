@@ -43,7 +43,7 @@ class RemoteApiService {
     } // try - catch
   } // postImage
 
-  Future<bool> postSaveImage({
+  Future<String?> postSaveImage({
     required Uint8List imageBytes,
     required String prompt,
     required String filename,
@@ -71,14 +71,15 @@ class RemoteApiService {
       final response = await http.Response.fromStream(streamedResponse);
 
       if (response.statusCode == 201) {
-        return true;
+        final decoded = jsonDecode(response.body);
+        return decoded["doc_id"];
       } else {
         print('저장 실패: ${response.statusCode} / ${response.body}');
-        return false;
+        return null;
       } // if - else
     } catch (e) {
       print("예외 발생: $e");
-      return false;
+      return null;
     } // try - catch
   } // postSaveImage
 
@@ -102,11 +103,9 @@ class RemoteApiService {
     } // try - catch
   } // getGeneratedImageList
 
-  Future<bool> deleteImage(String filename) async {
+  Future<bool> deleteImage(String docId) async {
     try {
-      final response = await http.delete(
-        Uri.parse('$flaskURL/delete/$filename'),
-      );
+      final response = await http.delete(Uri.parse('$flaskURL/delete/$docId'));
 
       if (response.statusCode == 200) {
         return true;

@@ -7,7 +7,7 @@ class SaveImageUseCase {
 
   SaveImageUseCase({required this.repository});
 
-  Future<bool> call(
+  Future<String?> call(
     Uint8List image,
     String prompt,
     String filename,

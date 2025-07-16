@@ -13,12 +13,14 @@ class ResultViewModel extends ChangeNotifier {
   bool _isSaving = false;
   bool _showTitleField = false;
   SaveStatus _status = SaveStatus.idle;
+  String? _docId;
 
   String get fileName => _fileName;
   bool get isFileNameEmpty => _isFileNameEmpty;
   bool get isSaving => _isSaving;
   bool get showTitleField => _showTitleField;
   SaveStatus get status => _status;
+  String? get docId => _docId;
 
   final TextEditingController titleController = TextEditingController();
 
@@ -61,21 +63,24 @@ class ResultViewModel extends ChangeNotifier {
     notifyListeners();
 
     try {
-      final success = await saveImageUseCase(
+      final docId = await saveImageUseCase(
         imageBytes,
         prompt,
         filename,
         sketches,
       );
-
-      _status = success ? SaveStatus.success : SaveStatus.error;
-    } catch (e, stackTrace) {
+      if (docId != null) {
+        _docId = docId;
+        _status = SaveStatus.success;
+      } else {
+        _status = SaveStatus.error;
+      }
+    } catch (e) {
       print("Save error: $e");
-      print(stackTrace);
       _status = SaveStatus.error;
     } finally {
       _isSaving = false;
       notifyListeners();
     }
-  }
+  } // Type: Uint8List
 } // ResultViewModel

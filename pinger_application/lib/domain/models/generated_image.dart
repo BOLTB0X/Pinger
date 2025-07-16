@@ -1,14 +1,14 @@
 import '../../data/models/generated_image_dto.dart';
 
 class GeneratedImage {
-  final String id;
+  final String docId;
   final String prompt;
   final String filename;
   final String imageUrl;
   final DateTime timestamp;
 
   GeneratedImage({
-    required this.id,
+    required this.docId,
     required this.prompt,
     required this.filename,
     required this.imageUrl,
@@ -17,7 +17,7 @@ class GeneratedImage {
 
   factory GeneratedImage.fromJson(Map<String, dynamic> json) {
     return GeneratedImage(
-      id: json['id'],
+      docId: json['doc_id'],
       prompt: json['prompt'],
       filename: json['filename'],
       imageUrl: json['image_url'],
@@ -27,7 +27,7 @@ class GeneratedImage {
 
   GeneratedImageDTO toDTO() {
     return GeneratedImageDTO(
-      id: id,
+      docId: docId,
       prompt: prompt,
       filename: filename,
       imageUrl: imageUrl,

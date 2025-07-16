@@ -9,7 +9,7 @@ abstract class ImageRepository {
     String prompt,
   ); // generateFromSketch
 
-  Future<bool> saveGeneratedImage(
+  Future<String?> saveGeneratedImage(
     Uint8List image,
     String prompt,
     String filename,
@@ -20,5 +20,5 @@ abstract class ImageRepository {
     int limit = 10,
   }); // fetchGeneratedImageList
 
-  Future<bool> deleteImage(String filename);
+  Future<bool> deleteImage(String docId);
 } // ImageRepository

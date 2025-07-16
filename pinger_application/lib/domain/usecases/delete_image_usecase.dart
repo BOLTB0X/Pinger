@@ -6,7 +6,7 @@ class DeleteImageUseCase {
 
   DeleteImageUseCase({required this.repository});
 
-  Future<bool> call(String filename) async {
-    return await repository.deleteImage(filename);
+  Future<bool> call(String docId) async {
+    return await repository.deleteImage(docId);
   } // call
 } // DeleteImageUseCase

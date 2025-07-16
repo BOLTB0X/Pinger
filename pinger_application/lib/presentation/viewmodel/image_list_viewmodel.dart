@@ -40,10 +40,10 @@ class ImageListViewModel extends ChangeNotifier {
     notifyListeners();
   } // loadImages
 
-  Future<bool> deleteImage(String filename) async {
-    final result = await deleteImageUseCase(filename);
+  Future<bool> deleteImage(String docId) async {
+    final result = await deleteImageUseCase(docId);
     if (result) {
-      _images.removeWhere((img) => img.filename == filename);
+      _images.removeWhere((img) => img.docId == docId);
       notifyListeners();
       return true;
     }
