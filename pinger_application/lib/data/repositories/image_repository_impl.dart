@@ -45,4 +45,9 @@ class ImageRepositoryImpl implements ImageRepository {
   Future<bool> deleteImage(String filename) {
     return apiService.deleteImage(filename);
   } // deleteImage
+
+  @override
+  Future<bool> updateImageTitle(String docId, String newFileName) {
+    return apiService.updateImageTitle(docId: docId, newFileName: newFileName);
+  } // updateImageTitle
 } // ImageRepositoryImpl

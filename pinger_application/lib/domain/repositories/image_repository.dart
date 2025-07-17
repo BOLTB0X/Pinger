@@ -21,4 +21,9 @@ abstract class ImageRepository {
   }); // fetchGeneratedImageList
 
   Future<bool> deleteImage(String docId);
+
+  Future<bool> updateImageTitle(
+    String docId,
+    String newFileName,
+  ); // updateImageTitle
 } // ImageRepository

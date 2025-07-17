@@ -13,23 +13,26 @@ class ImageListView extends StatefulWidget {
 } // ImageListView
 
 class _ImageListViewState extends State<ImageListView> {
-  @override
   Widget build(BuildContext context) {
     final viewModel = context.watch<ImageListViewModel>();
 
     return Scaffold(
-      backgroundColor: Colors.white,
-      appBar: AppBar(
-        title: const Text('Generated Images'),
-        backgroundColor: Colors.blue,
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.refresh),
-            onPressed: () => viewModel.loadImages(),
-          ),
-        ],
-      ),
-      body: _buildListView(viewModel),
+      appBar: AppBar(title: const Text("Generated Images")),
+      body: viewModel.isLoading
+          ? const Center(child: CircularProgressIndicator())
+          : RefreshIndicator(
+              onRefresh: viewModel.loadImages,
+              child: ListView.builder(
+                itemCount: viewModel.images.length,
+                itemBuilder: (context, index) {
+                  final image = viewModel.images[index];
+                  final isEditing = viewModel.editingDocId == image.docId;
+                  return isEditing
+                      ? _buildEditingTile(context, viewModel, image)
+                      : _buildImageTile(context, viewModel, image);
+                },
+              ),
+            ),
     );
   } // build
 
@@ -80,10 +83,6 @@ class _ImageListViewState extends State<ImageListView> {
         icon: const Icon(Icons.delete, color: Colors.blue),
         onPressed: () => _confirmDelete(context, viewModel, image),
       ),
-      onTap: () {
-        print('${viewModel.url}${image.imageUrl}');
-        // TODO: 상세 페이지 이동
-      },
     );
   } // _buildImageTile
 
@@ -113,4 +112,36 @@ class _ImageListViewState extends State<ImageListView> {
       }
     } // if
   } // _confirmDelete
+
+  Widget _buildEditingTile(
+    BuildContext context,
+    ImageListViewModel viewModel,
+    GeneratedImage image,
+  ) {
+    return ListTile(
+      leading: CachedNetworkImage(
+        imageUrl: '${viewModel.url}/${image.imageUrl}',
+        width: 48,
+        height: 48,
+        fit: BoxFit.cover,
+      ),
+      title: Row(
+        children: [
+          Expanded(
+            child: TextField(
+              controller: viewModel.editingController,
+              autofocus: true,
+              decoration: const InputDecoration(border: InputBorder.none),
+              onSubmitted: (_) => viewModel.saveFileName(image),
+            ),
+          ),
+          const Text('.png'),
+        ],
+      ),
+      trailing: IconButton(
+        icon: const Icon(Icons.check, color: Colors.blue),
+        onPressed: () => viewModel.saveFileName(image),
+      ),
+    );
+  } // _buildEditingTile
 } // _ImageListViewState

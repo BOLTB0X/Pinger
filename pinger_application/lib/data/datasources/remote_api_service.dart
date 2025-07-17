@@ -120,4 +120,24 @@ class RemoteApiService {
       return false;
     } // try - catch
   } // deleteImage
+
+  Future<bool> updateImageTitle({
+    required String docId,
+    required String newFileName,
+  }) async {
+    try {
+      final url = _flaskURL('/update/$docId');
+      final response = await http.put(url, body: {'filename': newFileName});
+
+      if (response.statusCode == 200) {
+        return true;
+      } else {
+        print("수정 실패: ${response.statusCode}, ${response.body}");
+        return false;
+      }
+    } catch (e, stack) {
+      print('Exception during updateImageTitle: $e\n$stack');
+      return false;
+    }
+  } // updateImageTitle
 } // RemoteApiService
