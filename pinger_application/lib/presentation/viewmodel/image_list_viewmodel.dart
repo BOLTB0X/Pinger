@@ -27,10 +27,11 @@ class ImageListViewModel extends ChangeNotifier {
 
   ImageListViewModel({
     required this.fetchImageListUseCase,
-    required this.updateImageTitleUseCase,
     required this.deleteImageUseCase,
+    required this.updateImageTitleUseCase,
   }) {
     _url = dotenv.env['FLASK_URL'] ?? 'http://localhost:50';
+    print(_url);
     loadImages();
   }
 
@@ -79,4 +80,4 @@ class ImageListViewModel extends ChangeNotifier {
   String _extractFileNameWithoutExtension(String filename) {
     return filename.split('.').first;
   }
-}
+} // ImageListViewModel

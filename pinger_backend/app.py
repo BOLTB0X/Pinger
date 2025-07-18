@@ -55,23 +55,37 @@ def create():
         return jsonify({"error": "Missing data"}), 400
 
     try:
-        timestamp = int(datetime.now().timestamp() * 1000)
-        fname = f"{filename}_{timestamp}.png"
-        image_path = os.path.join(UPLOAD_FOLDER, fname + ".png")
+        base_name = filename
+        extension = ".png"
+        full_name = base_name + extension
+        image_path = os.path.join(UPLOAD_FOLDER, full_name)
+
+        count = 1
+        while os.path.exists(image_path):
+            full_name = f"{base_name}_{count}{extension}"
+            image_path = os.path.join(UPLOAD_FOLDER, full_name)
+            count += 1
+
+        # 이미지 저장
         image.save(image_path)
 
-        image_url = f"images/{fname}.png"
+        image_url = f"images/{full_name}"
 
         doc_ref = db.collection("generated_images").document()
         doc_ref.set({
             "doc_id": doc_ref.id,
             "prompt": prompt,
-            "filename": fname,
+            "filename": full_name,
             "image_url": image_url,
             "timestamp": datetime.now().isoformat()
         })
 
-        return jsonify({"message": "Saved successfully", "doc_id": doc_ref.id, "image_url": image_url}), 201
+        return jsonify({
+            "message": "Saved successfully",
+            "doc_id": doc_ref.id,
+            "image_url": image_url
+        }), 201
+
     except Exception as e:
         print(f"Error in create function: {e}")
         return jsonify({"error": str(e)}), 500

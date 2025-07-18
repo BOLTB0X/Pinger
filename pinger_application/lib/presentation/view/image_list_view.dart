@@ -13,14 +13,33 @@ class ImageListView extends StatefulWidget {
 } // ImageListView
 
 class _ImageListViewState extends State<ImageListView> {
+  @override
   Widget build(BuildContext context) {
     final viewModel = context.watch<ImageListViewModel>();
 
     return Scaffold(
-      appBar: AppBar(title: const Text("Generated Images")),
+      backgroundColor: Colors.white,
+      appBar: AppBar(
+        title: const Text("Generated Images"),
+        backgroundColor: Colors.blue,
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.refresh),
+            onPressed: viewModel.loadImages,
+          ),
+        ],
+      ),
       body: viewModel.isLoading
-          ? const Center(child: CircularProgressIndicator())
+          ? const Center(child: CircularProgressIndicator(color: Colors.blue))
+          : viewModel.images.isEmpty
+          ? const Center(
+              child: Text(
+                "No images found",
+                style: TextStyle(color: Colors.black),
+              ),
+            )
           : RefreshIndicator(
+              color: Colors.blue,
               onRefresh: viewModel.loadImages,
               child: ListView.builder(
                 itemCount: viewModel.images.length,
@@ -36,29 +55,6 @@ class _ImageListViewState extends State<ImageListView> {
     );
   } // build
 
-  Widget _buildListView(ImageListViewModel viewModel) {
-    final images = viewModel.images;
-    final isLoading = viewModel.isLoading;
-
-    if (isLoading) {
-      return const Center(child: CircularProgressIndicator());
-    }
-
-    if (images.isEmpty) {
-      return const Center(child: Text("No images found"));
-    }
-
-    return RefreshIndicator(
-      onRefresh: () => viewModel.loadImages(),
-      child: ListView.builder(
-        itemCount: images.length,
-        itemBuilder: (context, index) {
-          return _buildImageTile(context, viewModel, images[index]);
-        },
-      ),
-    );
-  } // _buildListView
-
   Widget _buildImageTile(
     BuildContext context,
     ImageListViewModel viewModel,
@@ -68,7 +64,7 @@ class _ImageListViewState extends State<ImageListView> {
       leading: CachedNetworkImage(
         imageUrl: '${viewModel.url}/${image.imageUrl}',
         placeholder: (context, url) =>
-            const CircularProgressIndicator(strokeWidth: 2),
+            const CircularProgressIndicator(color: Colors.blue, strokeWidth: 2),
         errorWidget: (context, url, error) {
           CachedNetworkImage.evictFromCache(url);
           return const Icon(Icons.error);
@@ -79,39 +75,21 @@ class _ImageListViewState extends State<ImageListView> {
       ),
       title: Text(image.filename),
       subtitle: Text(image.prompt),
-      trailing: IconButton(
-        icon: const Icon(Icons.delete, color: Colors.blue),
-        onPressed: () => _confirmDelete(context, viewModel, image),
+      trailing: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          IconButton(
+            icon: const Icon(Icons.edit, color: Colors.green),
+            onPressed: () => viewModel.startEditing(image),
+          ),
+          IconButton(
+            icon: const Icon(Icons.delete, color: Colors.blue),
+            onPressed: () => _confirmDelete(context, viewModel, image),
+          ),
+        ],
       ),
     );
   } // _buildImageTile
-
-  Future<void> _confirmDelete(
-    BuildContext context,
-    ImageListViewModel viewModel,
-    GeneratedImage image,
-  ) async {
-    final confirm = await context.showConfirmDialog(
-      title: 'Confirm deletion',
-      content: 'Are you sure you want to delete "${image.filename}"?',
-      confirmText: "Delete",
-    );
-
-    if (confirm == true) {
-      final success = await viewModel.deleteImage(image.docId);
-      if (success) {
-        ScaffoldMessenger.of(
-          context,
-        ).showSnackBar(const SnackBar(content: Text('success')));
-      } else {
-        context.showStateDialog(
-          "Delete failed",
-          "Failed to delete the image. Please try again later.",
-          () => Navigator.pop(context),
-        );
-      }
-    } // if
-  } // _confirmDelete
 
   Widget _buildEditingTile(
     BuildContext context,
@@ -131,7 +109,10 @@ class _ImageListViewState extends State<ImageListView> {
             child: TextField(
               controller: viewModel.editingController,
               autofocus: true,
-              decoration: const InputDecoration(border: InputBorder.none),
+              decoration: const InputDecoration(
+                border: InputBorder.none,
+                isDense: true,
+              ),
               onSubmitted: (_) => viewModel.saveFileName(image),
             ),
           ),
@@ -144,4 +125,34 @@ class _ImageListViewState extends State<ImageListView> {
       ),
     );
   } // _buildEditingTile
+
+  Future<void> _confirmDelete(
+    BuildContext context,
+    ImageListViewModel viewModel,
+    GeneratedImage image,
+  ) async {
+    final confirm = await context.showConfirmDialog(
+      title: 'Confirm deletion',
+      content: 'Are you sure you want to delete "${image.filename}"?',
+      confirmText: "Delete",
+    );
+
+    if (!mounted) return;
+
+    if (confirm == true) {
+      final success = await viewModel.deleteImage(image.docId);
+      if (!mounted) return;
+      if (success) {
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(const SnackBar(content: Text('Deleted successfully')));
+      } else {
+        context.showStateDialog(
+          "Delete failed",
+          "Failed to delete the image. Please try again later.",
+          () => Navigator.pop(context),
+        );
+      }
+    } // if
+  } // _confirmDelete
 } // _ImageListViewState

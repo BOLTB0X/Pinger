@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:pinger_application/domain/usecases/update_image_title_usecase.dart';
 import 'package:provider/provider.dart';
 
 import 'core/network/httpoverrides_service.dart';
@@ -12,6 +13,7 @@ import 'domain/usecases/generate_image_usecase.dart';
 import 'domain/usecases/save_image_usecase.dart';
 import 'domain/usecases/fetch_image_metadata_list_usecase.dart';
 import 'domain/usecases/delete_image_usecase.dart';
+import 'domain/usecases/update_image_title_usecase.dart';
 import 'domain/entities/drawing_manager.dart';
 
 import 'presentation/view/canvas_view.dart';
@@ -40,6 +42,9 @@ void main() async {
     repository: imageRepository,
   );
   final deleteImageUseCase = DeleteImageUseCase(repository: imageRepository);
+  final updateImageUseCase = UpdateImageTitleUseCase(
+    repository: imageRepository,
+  );
 
   runApp(
     MultiProvider(
@@ -62,6 +67,7 @@ void main() async {
           create: (context) => ImageListViewModel(
             fetchImageListUseCase: fetchImageMetadataListUseCase,
             deleteImageUseCase: deleteImageUseCase,
+            updateImageTitleUseCase: updateImageUseCase,
           ),
         ),
       ],
