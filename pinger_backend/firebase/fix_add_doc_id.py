@@ -1,6 +1,10 @@
 import os
+from dotenv import load_dotenv
 import firebase_admin
 from firebase_admin import credentials, firestore
+
+# .env 파일에서 환경 변수를 로드
+load_dotenv()
 
 # Firebase 초기화
 if not firebase_admin._apps:
