@@ -15,6 +15,7 @@
 개발환경: VSCode, Android Studio
 
 Test 기기: samsung galaxy z flip 3
+
 ---
 
 ## Drawing
