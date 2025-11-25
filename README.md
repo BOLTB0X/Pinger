@@ -12,9 +12,9 @@
 | DB             | Firebase Firestore                       | 이미지 메타데이터 관리                    |
 | 이미지 저장소  | 로컬 디렉토리 (`/images`), Google Drive | 생성 이미지 저장소                        |
 
-개발환경: VSCode, Android Studio
+- 개발환경: VSCode, Android Studio
 
-Test 기기: samsung galaxy z flip 3
+- Test 기기: samsung galaxy z flip 3
 
 ---
 
