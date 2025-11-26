@@ -7,8 +7,8 @@
 ```
 Flutter(Client)
    → Base64 Encoded Sketch
-      → Flask API (/generate)
-          → ControlNet (Colab / HF API)
+      → Flask API (/create)
+          → ControlNet (Colab / API(generate))
               → Generated Image
                   → Firebase Storage Upload
                       → Firestore Metadata 저장
@@ -74,6 +74,57 @@ Flutter(Client)
     </tr>
   </table>
 </p>
+
+<details>
+<summary> DrawingCanvas </summary>
+
+```dart
+class DrawingCanvas extends StatelessWidget {
+  final GlobalKey repaintKey;
+  final bool isDrawingEnabled;
+
+  const DrawingCanvas({
+    super.key,
+    required this.repaintKey,
+    this.isDrawingEnabled = true,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final manager = context.watch<DrawingManager>();
+
+    return RepaintBoundary(
+      key: repaintKey,
+      child: GestureDetector(
+        onPanStart: (details) {
+          RenderBox box = context.findRenderObject() as RenderBox;
+          Offset point = box.globalToLocal(details.globalPosition);
+          isDrawingEnabled ? manager.startSketch(point) : null;
+        },
+        onPanUpdate: (details) {
+          RenderBox box = context.findRenderObject() as RenderBox;
+          Offset point = box.globalToLocal(details.globalPosition);
+          isDrawingEnabled ? manager.addPoint(point) : null;
+        },
+        onPanEnd: (_) => isDrawingEnabled ? manager.endSketch() : null,
+        child: Container(
+          color: Colors.white,
+          child: CustomPaint(
+            painter: DrawingPainter(
+              manager.sketches,
+              currentPoint: manager.currentDrawingPoint,
+            ),
+            size: Size.infinite,
+          ),
+        ),
+      ),
+    );
+  } // build
+} // DrawingCanvas
+```
+
+</details>
+
 
 <details>
 <summary> DrawingPainter </summary>
@@ -225,6 +276,46 @@ class DrawingPainter extends CustomPainter {
 </p>
 
 <details>
+<summary> PathHistory </summary>
+
+```dart
+class PathHistory {
+  final List<Sketch> _sketches = [];
+  final List<Sketch> _undone = [];
+
+  List<Sketch> get sketches => List.unmodifiable(_sketches);
+
+  // 새로운 스케치 추가
+  void add(Sketch sketch) {
+    _sketches.add(sketch);
+    _undone.clear();
+  }
+
+  // 전체 삭제
+  void clear() {
+    _sketches.clear();
+    _undone.clear();
+  }
+
+  // 실행 취소 (undo)
+  void undo() {
+    if (_sketches.isNotEmpty) {
+      _undone.add(_sketches.removeLast());
+    }
+  }
+
+  // 다시 실행 (redo)
+  void redo() {
+    if (_undone.isNotEmpty) {
+      _sketches.add(_undone.removeLast());
+    }
+  }
+} // PathHistory
+```
+
+</details>
+
+<details>
 <summary> DrawingManager </summary>
 
 ```dart
@@ -353,7 +444,6 @@ class DrawingManager extends ChangeNotifier {
 <details>
 <summary> AI Code </summary>
 
-
 ```py
 class ImageAI:
     def __init__(self):
@@ -421,6 +511,25 @@ class ImageAI:
     ## __pil_to_base64(img: Image.Image)
 ## class ImageAI
 ```
+
+```py
+@app.route("/generate", methods=["POST"])
+def generate():
+    data = request.json
+    base64_image = data.get("image")
+    prompt = data.get("prompt")
+
+    if not base64_image or not prompt:
+        return jsonify({"error": "Missing image or prompt"}), 400
+
+    try:
+        result_base64 = image_ai.generate_from_sketch(base64_image, prompt)
+        return jsonify({"image": result_base64})
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+## generate
+```
+
 </details>
 
 
@@ -618,6 +727,22 @@ def update(doc_id):
         return jsonify({"error": str(e)}), 500
 ## update
 ```
+
+</details>
+
+
+<details>
+<summary> Maintenance Script </summary>
+
+firebase(NoSQL) DB 수정, 데이터 정리, 백업 등 코드
+
+- [fix_add_doc_id.py](https://github.com/BOLTB0X/Pinger/blob/main/pinger_backend/firebase/fix_add_doc_id.py)
+
+- [fix_image_urls.py](https://github.com/BOLTB0X/Pinger/blob/main/pinger_backend/firebase/fix_image_urls.py)
+
+- [remove_images_to_firebase.py](https://github.com/BOLTB0X/Pinger/blob/main/pinger_backend/firebase/remove_images_to_firebase.py)
+
+- [sync_images_to_firestore.py](https://github.com/BOLTB0X/Pinger/blob/main/pinger_backend/firebase/sync_images_to_firestore.py)
 
 </details>
 
